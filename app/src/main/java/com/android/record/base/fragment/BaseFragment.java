@@ -4,14 +4,15 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
-import com.android.memory.base.thread.ThreadPoolConst;
-import com.android.memory.base.thread.ThreadPoolManager;
-import com.android.memory.base.util.DialogFragmentHelper;
+
+import com.android.record.base.thread.ThreadPoolConst;
+import com.android.record.base.thread.ThreadPoolManager;
+import com.android.record.base.util.DialogFragmentHelper;
 
 import java.util.concurrent.Executor;
 
-import bolts.Task;
 import butterknife.ButterKnife;
+
 
 /**
  *
@@ -21,7 +22,6 @@ public abstract class BaseFragment extends MSBaseFragment{
     public static final String TAG = BaseFragment.class.getSimpleName();
     protected static Executor sHTTPExecutor = ThreadPoolManager.getInstance().getThreadPool(ThreadPoolConst.THREAD_TYPE_SIMPLE_HTTP);
     protected static Executor sWORKExecutor = ThreadPoolManager.getInstance().getThreadPool(ThreadPoolConst.THREAD_TYPE_WORK);
-    protected static Executor sUIExecutor = Task.UI_THREAD_EXECUTOR;
 
 
     @Override
