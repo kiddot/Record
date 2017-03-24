@@ -30,6 +30,7 @@ public class DaoConfig {
 
     public SQLiteDatabase openOrCreateDatabase() {
         SQLiteDatabase db = mContext.openOrCreateDatabase(mDataBaseName, Context.MODE_PRIVATE, null);
+
         if (db.getVersion() == 0)
             mSqLiteDatabaseListener.onCreate(db);
         return db;

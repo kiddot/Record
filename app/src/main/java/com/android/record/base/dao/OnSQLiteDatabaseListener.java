@@ -14,7 +14,7 @@ public interface OnSQLiteDatabaseListener {
      * 在这里创造数据库表，通过Greendao生成的DaoMaster创造
      * @param db
      */
-    void onCreate(Database db);
+    void onCreate(SQLiteDatabase db);
 
     /**
      * 在这里通过daoSession进行更新操作

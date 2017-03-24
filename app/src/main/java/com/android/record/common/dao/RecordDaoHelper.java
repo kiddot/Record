@@ -1,5 +1,6 @@
 package com.android.record.common.dao;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.android.record.base.dao.OnSQLiteDatabaseListener;
@@ -7,6 +8,7 @@ import com.android.record.greendao.DaoMaster;
 
 import org.greenrobot.greendao.AbstractDaoSession;
 import org.greenrobot.greendao.database.Database;
+import org.greenrobot.greendao.database.StandardDatabase;
 
 /**
  * Created by kiddo on 17-3-24.
@@ -22,9 +24,10 @@ public class RecordDaoHelper implements OnSQLiteDatabaseListener {
         return mInstance;
     }
     @Override
-    public void onCreate(Database db) {
+    public void onCreate(SQLiteDatabase db) {
         Log.e(TAG, "onCreate 创建数据库表");
-        DaoMaster.createAllTables(db, true);
+        Database database = new StandardDatabase(db);
+        DaoMaster.createAllTables(database, true);
     }
 
     @Override
