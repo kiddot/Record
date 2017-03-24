@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'org.greenrobot.greendao'
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
@@ -20,6 +20,11 @@ android {
     dataBinding {
         enabled = true
     }
+    greendao{
+        schemaVersion 1
+        daoPackage'com.android.record.greendao'
+        targetGenDir'src/main/java'
+    }
 }
 
 dependencies {
@@ -29,7 +34,8 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:23.4.0'
     testCompile 'junit:junit:4.12'
-    compile 'org.greenrobot:greendao:2.2.0'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.jakewharton:butterknife:8.4.0'
+    compile'org.greenrobot:greendao:3.1.0'
+    compile'org.greenrobot:greendao-generator:3.1.0'
 }

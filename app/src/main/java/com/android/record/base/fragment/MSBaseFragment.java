@@ -2,8 +2,9 @@ package com.android.record.base.fragment;
 
 import android.os.Bundle;
 
-import com.android.memory.base.util.HandleUtil;
-import com.android.memory.base.util.Toastor;
+import com.android.record.base.util.HandleUtil;
+import com.android.record.base.util.Toastor;
+
 
 public abstract class MSBaseFragment extends MSLazyFragment {
     private Toastor mToast;

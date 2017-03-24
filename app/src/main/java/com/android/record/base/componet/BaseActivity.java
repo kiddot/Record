@@ -4,17 +4,18 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import com.android.memory.base.thread.ThreadPoolConst;
-import com.android.memory.base.thread.ThreadPoolManager;
-import com.android.memory.base.util.HandleUtil;
-import com.android.memory.base.util.Toastor;
+
+import com.android.record.base.thread.ThreadPoolConst;
+import com.android.record.base.thread.ThreadPoolManager;
+import com.android.record.base.util.HandleUtil;
+import com.android.record.base.util.Toastor;
 
 import java.util.concurrent.Executor;
 
-import bolts.Task;
 import butterknife.ButterKnife;
 
-import static com.android.memory.MemoryApplication.getContext;
+import static com.android.record.RecordApplication.getContext;
+
 
 /**
  *
@@ -26,7 +27,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     private static final String TAG = BaseActivity.class.getSimpleName();
     protected static Executor sHTTPExecutor = ThreadPoolManager.getInstance().getThreadPool(ThreadPoolConst.THREAD_TYPE_SIMPLE_HTTP);
     protected static Executor sWORKExecutor = ThreadPoolManager.getInstance().getThreadPool(ThreadPoolConst.THREAD_TYPE_WORK);
-    protected static Executor sUIExecutor = Task.UI_THREAD_EXECUTOR;
     private Toastor mToast;
 
     @Override
