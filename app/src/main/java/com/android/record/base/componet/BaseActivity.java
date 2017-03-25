@@ -1,5 +1,6 @@
 package com.android.record.base.componet;
 
+import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -35,8 +36,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (getSupportActionBar() != null){
             getSupportActionBar().hide();
         }
-        setContentView(getLayoutId());
-        ButterKnife.bind(this);
+        getLayoutBinding();
+        //setContentView(getLayoutId());
+        //ButterKnife.bind(this);
         if (mToast == null && getContext() != null) mToast = new Toastor(getContext());
         init(savedInstanceState);
     }
@@ -44,7 +46,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     /*
     * 重写该方法来设置布局Id
     */
-    protected abstract int getLayoutId();
+    protected abstract void getLayoutBinding();
 
     /*
     * 初始化

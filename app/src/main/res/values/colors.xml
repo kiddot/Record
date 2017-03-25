@@ -4,4 +4,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="transparent">#00000000</color>
+    <color name="blue_normal">#3c78d8</color>
+    <color name="purple_progress">#ff00ff</color>
+    <color name="blue_pressed">#303F9F</color>
+    <color name="green_complete">#6aa84f</color>
 </resources>
