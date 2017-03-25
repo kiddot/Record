@@ -24,7 +24,7 @@ public class RecordApplication extends Application{
         super.onCreate();
         mApplication = this;
         mContext = getApplicationContext();
-        setDatabase();
+        //setDatabase();
     }
 
     public static RecordApplication getApplication() {
