@@ -16,5 +16,18 @@ import com.android.record.bean.user;
 public interface LoginService {
 
     @GET("login.php")
-    Observable<GsonUser> getUser(@Query("format") String format, @Query("username") String username, @Query("password") String password);
+    Observable<GsonUser> getUser(@Query("format") String format,
+                                 @Query("username") String username,
+                                 @Query("password") String password
+                                );
+
+    @GET("login.php")
+    Observable<String> addUser(@Query("format") String format,
+                               @Query("username") String username,
+                               @Query("password") String password,
+                               @Query("sex") String sex,
+                               @Query("email") String email,
+                               @Query("phone") String phone
+                                );
+
 }

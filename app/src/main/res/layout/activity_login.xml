@@ -4,10 +4,6 @@
     xmlns:custom="http://schemas.android.com/tools"
     >
 
-    <data>
-        <variable name="User" type="com.android.record.bean.user"/>
-    </data>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -19,8 +15,7 @@
             android:layout_margin="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="手机号/邮箱"
-            android:text="@{User.userName}"
+            android:hint="用户名"
             android:textColor="@android:color/white"
             app:biu_duration="800"
             app:biu_text_color="@android:color/white"
@@ -36,7 +31,6 @@
             android:layout_height="wrap_content"
             android:hint="密码"
             android:inputType="textPassword"
-            android:text="@{User.password}"
             android:textColor="@android:color/white"
             app:biu_duration="800"
             app:biu_text_color="@android:color/white"
@@ -51,7 +45,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:textSize="18sp"
-            android:text="Login"
+            android:text="SIGN IN"
             android:textColor="@color/colorAccent"
             custom:pb_colorComplete="@color/green_complete"
             custom:pb_colorNormal="@color/blue_normal"

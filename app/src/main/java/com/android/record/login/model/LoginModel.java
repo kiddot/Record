@@ -33,7 +33,7 @@ public class LoginModel {
     public static final String TAG = LoginModel.class.getSimpleName();
     private String mBaseUrl = AppConstant.Url;
     private Retrofit mRetrofit;
-    private ActivityLoginBinding mLoginBinding;
+    private LoginService mLoginService;
 
     public LoginModel() {
         if (mRetrofit == null){
@@ -43,11 +43,12 @@ public class LoginModel {
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .build();
         }
+        mLoginService = mRetrofit.create(LoginService.class);
     }
 
     public void login(String format, String username, String password){
-        LoginService loginService = mRetrofit.create(LoginService.class);
-        loginService.getUser(format, username, password)
+        //LoginService loginService = mRetrofit.create(LoginService.class);
+        mLoginService.getUser(format, username, password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<GsonUser>() {
@@ -72,5 +73,27 @@ public class LoginModel {
                     }
                 });
 
+    }
+
+    public void register(String format, String username, String password, String email, String sex, String phone){
+        mLoginService.addUser(format,username,password,sex,email,phone)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+
+                    }
+                });
     }
 }

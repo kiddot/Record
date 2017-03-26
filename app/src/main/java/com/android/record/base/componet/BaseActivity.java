@@ -4,6 +4,7 @@ import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 
 import com.android.record.base.thread.ThreadPoolConst;
@@ -22,7 +23,7 @@ import static com.android.record.RecordApplication.getContext;
  *
  * Created by kiddo on 17-1-9.
  */
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener{
 
     //以ClassName作为TAG
     private static final String TAG = BaseActivity.class.getSimpleName();

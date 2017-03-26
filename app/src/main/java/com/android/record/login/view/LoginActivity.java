@@ -21,7 +21,7 @@ import org.greenrobot.eventbus.ThreadMode;
  * Created by kiddo on 17-3-25.
  */
 
-public class LoginActivity extends BaseActivity implements View.OnClickListener{
+public class LoginActivity extends BaseActivity{
     public static final String TAG = LoginActivity.class.getSimpleName();
     private ActivityLoginBinding mLoginBinding;
     private LoginModel mLoginModel;
@@ -72,6 +72,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
         if (isSuccess){
             mLoginBinding.loginBtnLogin.setProgress(100);
         } else {
+            showToast("登录失败，请检查用户名和密码是否有误");
             mLoginBinding.loginBtnLogin.setProgress(-1);
         }
     }
