@@ -5,13 +5,14 @@
     >
 
     <data>
-        <variable name="user" type="com.android.record.bean.user"/>
+        <variable name="User" type="com.android.record.bean.user"/>
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:fitsSystemWindows="true">
 
         <me.james.biuedittext.BiuEditText
             android:id="@+id/login_et_username"
@@ -19,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="手机号/邮箱"
-            android:text="@{user.userName}"
+            android:text="@{User.userName}"
             android:textColor="@android:color/white"
             app:biu_duration="800"
             app:biu_text_color="@android:color/white"
@@ -34,7 +35,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="密码"
-            android:text="@{user.password}"
+            android:inputType="textPassword"
+            android:text="@{User.password}"
             android:textColor="@android:color/white"
             app:biu_duration="800"
             app:biu_text_color="@android:color/white"

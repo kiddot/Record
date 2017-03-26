@@ -45,7 +45,7 @@ public class user {
     }
     @Generated(hash = 1017129979)
     public user(String userName, String password, String sex, String phone,
-            String email) {
+                String email) {
         this.userName = userName;
         this.password = password;
         this.sex = sex;
