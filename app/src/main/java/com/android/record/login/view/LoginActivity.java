@@ -5,10 +5,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.android.record.BR;
 import com.android.record.R;
 import com.android.record.base.componet.BaseActivity;
-import com.android.record.base.rx.RxBus;
 import com.android.record.base.util.Check;
 import com.android.record.databinding.ActivityLoginBinding;
 import com.android.record.login.event.LoginEvent;
@@ -61,7 +59,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
                     showToast("请检查账号或者密码是否为空");
                 }
                 mLoginModel.login("login", username, password);
-                Log.d(TAG, "login  ----ing ");
+                mLoginBinding.loginBtnLogin.setProgress(50);
+                Log.d(TAG, "用户正在尝试登录  ----ing ");
                 break;
         }
     }
@@ -69,10 +68,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReceiveLoginEvent(LoginEvent event){
         boolean isSuccess = event.isSuccess();
+        Log.d(TAG, "onReceiveLoginEvent: " + isSuccess);
         if (isSuccess){
-
+            mLoginBinding.loginBtnLogin.setProgress(100);
         } else {
-
+            mLoginBinding.loginBtnLogin.setProgress(-1);
         }
     }
 

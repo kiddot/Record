@@ -1,9 +1,12 @@
 package com.android.record.login.api;
 
+import okhttp3.ResponseBody;
+import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 import rx.Observable;
 
+import com.android.record.bean.GsonUser;
 import com.android.record.bean.user;
 
 /**
@@ -13,5 +16,5 @@ import com.android.record.bean.user;
 public interface LoginService {
 
     @GET("login.php")
-    Observable<user> getUser(@Query("format") String format, @Query("username") String username, @Query("password") String password);
+    Observable<GsonUser> getUser(@Query("format") String format, @Query("username") String username, @Query("password") String password);
 }

@@ -2,6 +2,8 @@ package com.android.record.login.model;
 
 import android.util.Log;
 
+import com.android.record.base.util.Check;
+import com.android.record.bean.GsonUser;
 import com.android.record.bean.user;
 import com.android.record.common.AppConstant;
 import com.android.record.databinding.ActivityLoginBinding;
@@ -10,6 +12,12 @@ import com.android.record.login.event.LoginEvent;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.IOException;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -42,7 +50,7 @@ public class LoginModel {
         loginService.getUser(format, username, password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<user>() {
+                .subscribe(new Subscriber<GsonUser>() {
                     @Override
                     public void onCompleted() {
                         Log.d(TAG, "onCompleted: ");
@@ -54,10 +62,15 @@ public class LoginModel {
                     }
 
                     @Override
-                    public void onNext(user user) {
-                        Log.d(TAG, "onNext: "+ user.getSex());
-                        EventBus.getDefault().post(new LoginEvent(true));
+                    public void onNext(GsonUser gsonUser) {
+                        Log.d(TAG, "onNext: "+ gsonUser.getCode());
+                        if (gsonUser.getUser() != null){
+                            EventBus.getDefault().post(new LoginEvent(true));
+                        }else {
+                            EventBus.getDefault().post(new LoginEvent(false));
+                        }
                     }
                 });
+
     }
 }
