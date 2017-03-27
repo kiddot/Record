@@ -2,22 +2,14 @@ package com.android.record.login.model;
 
 import android.util.Log;
 
-import com.android.record.base.util.Check;
 import com.android.record.bean.GsonUser;
-import com.android.record.bean.user;
 import com.android.record.common.AppConstant;
-import com.android.record.databinding.ActivityLoginBinding;
 import com.android.record.login.api.LoginService;
 import com.android.record.login.event.LoginEvent;
+import com.android.record.login.event.RegisterEvent;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.io.IOException;
-
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -29,13 +21,13 @@ import rx.schedulers.Schedulers;
  * Created by kiddo on 17-3-26.
  */
 
-public class LoginModel {
-    public static final String TAG = LoginModel.class.getSimpleName();
+public class LoginAndRegister {
+    public static final String TAG = LoginAndRegister.class.getSimpleName();
     private String mBaseUrl = AppConstant.Url;
     private Retrofit mRetrofit;
     private LoginService mLoginService;
 
-    public LoginModel() {
+    public LoginAndRegister() {
         if (mRetrofit == null){
             mRetrofit = new Retrofit.Builder()
                     .baseUrl(mBaseUrl)
@@ -54,7 +46,7 @@ public class LoginModel {
                 .subscribe(new Subscriber<GsonUser>() {
                     @Override
                     public void onCompleted() {
-                        Log.d(TAG, "onCompleted: ");
+                        Log.d(TAG, "onCompleted: 登录");
                     }
 
                     @Override
@@ -79,10 +71,10 @@ public class LoginModel {
         mLoginService.addUser(format,username,password,sex,email,phone)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<String>() {
+                .subscribe(new Subscriber<GsonUser>() {
                     @Override
                     public void onCompleted() {
-
+                        Log.d(TAG, "onCompleted: 注册");
                     }
 
                     @Override
@@ -91,8 +83,21 @@ public class LoginModel {
                     }
 
                     @Override
-                    public void onNext(String s) {
-
+                    public void onNext(GsonUser gsonUser) {
+                        int code = gsonUser.getCode();
+                        Log.d(TAG, "onNext: "+ code);
+                        if (code == 200){
+                            //成功
+                            EventBus.getDefault().post(new RegisterEvent(200));
+                        }else if (code == 203){
+                            //当前必填项有为空的，
+                            Log.d(TAG, "onNext: 当前必填项有为空的");
+                            EventBus.getDefault().post(new RegisterEvent(203));
+                        } else if (code == 205) {
+                            //当前用户名已经被注册
+                            Log.d(TAG, "onNext: 当前用户名已经被注册");
+                            EventBus.getDefault().post(new RegisterEvent(205));
+                        }
                     }
                 });
     }

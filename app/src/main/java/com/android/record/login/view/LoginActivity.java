@@ -10,7 +10,7 @@ import com.android.record.base.componet.BaseActivity;
 import com.android.record.base.util.Check;
 import com.android.record.databinding.ActivityLoginBinding;
 import com.android.record.login.event.LoginEvent;
-import com.android.record.login.model.LoginModel;
+import com.android.record.login.model.LoginAndRegister;
 import com.dd.processbutton.iml.ActionProcessButton;
 
 import org.greenrobot.eventbus.EventBus;
@@ -24,7 +24,7 @@ import org.greenrobot.eventbus.ThreadMode;
 public class LoginActivity extends BaseActivity{
     public static final String TAG = LoginActivity.class.getSimpleName();
     private ActivityLoginBinding mLoginBinding;
-    private LoginModel mLoginModel;
+    private LoginAndRegister mLoginAndRegister;
 
     @Override
     protected void getLayoutBinding() {
@@ -42,27 +42,25 @@ public class LoginActivity extends BaseActivity{
     }
 
     private void initView() {
-        mLoginModel = new LoginModel();
-        mLoginBinding.loginBtnLogin.setOnClickListener(this);
+        mLoginAndRegister = new LoginAndRegister();
         mLoginBinding.loginBtnLogin.setMode(ActionProcessButton.Mode.ENDLESS);
         EventBus.getDefault().register(this);
     }
 
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.login_btn_login :
-                String username = mLoginBinding.loginEtUsername.getText().toString();
-                String password = mLoginBinding.loginEtPassword.getText().toString();
-                if (Check.isEmpty(username) || Check.isEmpty(password)){
-                    showToast("请检查账号或者密码是否为空");
-                }
-                mLoginModel.login("login", username, password);
-                mLoginBinding.loginBtnLogin.setProgress(50);
-                Log.d(TAG, "用户正在尝试登录  ----ing ");
-                break;
+    public void login(View view){
+        String username = mLoginBinding.loginEtUsername.getText().toString();
+        String password = mLoginBinding.loginEtPassword.getText().toString();
+        if (Check.isEmpty(username) || Check.isEmpty(password)){
+            showToast("请检查账号或者密码是否为空");
+        }else {
+            mLoginAndRegister.login("login", username, password);
+            mLoginBinding.loginBtnLogin.setProgress(50);
+            Log.d(TAG, "用户正在尝试登录  ----ing ");
         }
+    }
+
+    public void signUp(View view){
+        RegisterActivity.startActivity(this);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

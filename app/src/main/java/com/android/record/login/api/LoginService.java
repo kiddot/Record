@@ -22,7 +22,7 @@ public interface LoginService {
                                 );
 
     @GET("login.php")
-    Observable<String> addUser(@Query("format") String format,
+    Observable<GsonUser> addUser(@Query("format") String format,
                                @Query("username") String username,
                                @Query("password") String password,
                                @Query("sex") String sex,
