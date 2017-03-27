@@ -112,7 +112,7 @@
             android:textSize="18sp"
             android:text="SIGN UP"
             android:onClick="register"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/white"
             custom:pb_colorComplete="@color/green_complete"
             custom:pb_colorNormal="@color/blue_normal"
             custom:pb_colorPressed="@color/blue_pressed"

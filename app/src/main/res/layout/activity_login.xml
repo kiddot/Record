@@ -82,8 +82,7 @@
             android:textSize="18sp"
             android:text="SIGN IN"
             android:onClick="login"
-            android:background="@drawable/text_bg"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/white"
             custom:pb_colorComplete="@color/green_complete"
             custom:pb_colorNormal="@color/blue_normal"
             custom:pb_colorPressed="@android:color/holo_blue_dark"
@@ -103,7 +102,7 @@
             android:textSize="18sp"
             android:text="SIGN UP"
             android:onClick="signUp"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/white"
             custom:pb_colorNormal="@color/blue_normal"
             custom:pb_colorPressed="@android:color/holo_blue_dark" />
 
