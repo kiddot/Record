@@ -11,6 +11,7 @@ import com.android.record.base.util.Check;
 import com.android.record.databinding.ActivityLoginBinding;
 import com.android.record.login.event.LoginEvent;
 import com.android.record.login.model.LoginAndRegister;
+import com.android.record.main.view.MainActivity;
 import com.dd.processbutton.iml.ActionProcessButton;
 
 import org.greenrobot.eventbus.EventBus;
@@ -69,6 +70,7 @@ public class LoginActivity extends BaseActivity{
         Log.d(TAG, "onReceiveLoginEvent: " + isSuccess);
         if (isSuccess){
             mLoginBinding.loginBtnLogin.setProgress(100);
+            MainActivity.startActivity(this);
         } else {
             showToast("登录失败，请检查用户名和密码是否有误");
             mLoginBinding.loginBtnLogin.setProgress(-1);
