@@ -21,6 +21,7 @@
 
         <activity android:name=".login.view.RegisterActivity"/>
         <activity android:name=".main.view.MainActivity"/>
+        <activity android:name=".list.view.ListActivity"/>
 
     </application>
 

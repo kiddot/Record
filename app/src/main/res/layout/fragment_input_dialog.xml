@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="320dp"
+    android:layout_height="180dp"
+    android:layout_gravity="center"
+    android:background="@drawable/background_with_shadow"
+    >
+
+    <TextView
+        android:id="@+id/input_hint"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="请输入你要帮忙的信息"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:textColor="@color/colorAccent"
+        />
+
+    <EditText
+        android:id="@+id/input_edit"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:layout_below="@+id/input_hint"
+        android:background="@drawable/background_input_edit"/>
+
+    <Button
+        android:id="@+id/input_confirm"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:layout_marginBottom="10dp"
+        android:layout_centerHorizontal="true"
+        android:text="确定"
+        style="@style/ButtonStyle"
+        />
+
+</RelativeLayout>

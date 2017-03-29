@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.android.record.R;
 import com.android.record.base.componet.BaseActivity;
+import com.android.record.list.view.ListActivity;
 import com.github.clans.fab.FloatingActionButton;
 
 
@@ -58,7 +59,7 @@ public class MainActivity extends BaseActivity implements FloatingActionButton.O
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.menu_item_one:
-                showToast("one");
+                ListActivity.startActivity(this);
                 break;
             case R.id.menu_item_second:
                 showToast("two");
