@@ -35,7 +35,7 @@
         android:layout_marginBottom="20dp"
         android:background="#F05079"
         android:onClick="editCard"
-        android:text="EDIT"/>
+        android:text="修改"/>
 
     <TextView
         android:id="@+id/tvPrecent"
