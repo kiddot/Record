@@ -1,12 +1,10 @@
 package com.android.record.list.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 
 import com.android.record.R;
 import com.android.record.list.SwipeCardBean;
-import com.android.record.list.view.ListActivity;
 import com.mcxtzhang.commonadapter.rv.CommonAdapter;
 import com.mcxtzhang.commonadapter.rv.ViewHolder;
 import com.squareup.picasso.Picasso;
@@ -28,7 +26,7 @@ public class ListAdapter extends CommonAdapter<SwipeCardBean> {
     @Override
     public void convert(ViewHolder viewHolder, SwipeCardBean swipeCardBean) {
         viewHolder.setText(R.id.tvName, swipeCardBean.getName());
-        viewHolder.setText(R.id.tvPrecent, swipeCardBean.getPostition() + " /" + mDatas.size());
+        viewHolder.setText(R.id.tvPrecent, swipeCardBean.getPosition() + " /" + mDatas.size());
         Picasso.with(mContext).load(swipeCardBean.getUrl()).into((ImageView) viewHolder.getView(R.id.iv));
     }
 }

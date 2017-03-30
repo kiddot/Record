@@ -3,6 +3,7 @@
     android:layout_width="320dp"
     android:layout_height="180dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/tools"
     android:layout_gravity="center"
     android:background="@drawable/background_with_shadow">
 
@@ -35,16 +36,34 @@
         <!--app:biu_type="flyup"-->
         <!--app:biu_text_start_size="18sp" />-->
 
-    <Button
+    <!--<Button-->
+        <!--android:id="@+id/input_confirm"-->
+        <!--android:layout_width="80dp"-->
+        <!--android:layout_height="40dp"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:gravity="center"-->
+        <!--android:layout_marginBottom="10dp"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:text="确定"-->
+        <!--style="@style/ButtonStyle"-->
+        <!--/>-->
+    <com.dd.processbutton.iml.ActionProcessButton
         android:id="@+id/input_confirm"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
-        android:layout_alignParentBottom="true"
-        android:gravity="center"
-        android:layout_marginBottom="10dp"
-        android:layout_centerHorizontal="true"
-        android:text="确定"
-        style="@style/ButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="20dp"
+        android:textSize="18sp"
+        android:text="Confirm"
+        android:textColor="@color/white"
+        custom:pb_colorComplete="@color/green_complete"
+        custom:pb_colorNormal="@color/blue_normal"
+        custom:pb_colorPressed="@android:color/holo_blue_dark"
+        custom:pb_colorProgress="@color/purple_progress"
+        custom:pb_textComplete="@string/success"
+        custom:pb_textProgress="Loading"
+        custom:pb_textError="Error"
         />
 
 </RelativeLayout>

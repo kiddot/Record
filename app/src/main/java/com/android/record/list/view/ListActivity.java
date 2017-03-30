@@ -5,17 +5,24 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.View;
 
 import com.android.record.R;
 import com.android.record.base.componet.BaseActivity;
+import com.android.record.base.dao.AppDaoManager;
+import com.android.record.base.dao.DaoManager;
+import com.android.record.common.dao.RecordDaoHelper;
+import com.android.record.common.dao.RecordDaoManager;
+import com.android.record.greendao.SwipeCardBeanDao;
 import com.android.record.list.SwipeCardBean;
 import com.android.record.list.TanTanCallback;
 import com.android.record.list.adapter.ListAdapter;
-import com.android.record.list.fragment.InputDialog;
+import com.android.record.common.dialog.InputDialog;
 import com.mcxtzhang.layoutmanager.swipecard.CardConfig;
 import com.mcxtzhang.layoutmanager.swipecard.OverLayCardLayoutManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,6 +36,7 @@ public class ListActivity extends BaseActivity implements InputDialog.InputListe
     private ListAdapter mAdapter;
     private List<SwipeCardBean> mDatas;
     private InputDialog mInputDialog;
+    private String username = "kiddo";
 
     public static void startActivity(Context context){
         Intent intent = new Intent(context, ListActivity.class);
@@ -75,8 +83,15 @@ public class ListActivity extends BaseActivity implements InputDialog.InputListe
 
     public void addCard(View view){
         showToast("click");
-        mDatas.add(new SwipeCardBean(9,null,"ldk"));
-        mAdapter.addDatas(mDatas);
+        DaoManager daoManager = AppDaoManager.get(username);
+        if (daoManager ==null){
+            Log.d(TAG, "addCard: nononononono");
+            daoManager = new RecordDaoManager(this, username, RecordDaoHelper.getInstance());
+        }
+        List<SwipeCardBean> list = new ArrayList<>();
+        SwipeCardBean swipeCardBean = new SwipeCardBean(mAdapter.getItemCount()+1,null,"ldk","2017");
+        list.add(swipeCardBean);
+        daoManager.insert(swipeCardBean);
         //TODO
     }
 
@@ -91,9 +106,9 @@ public class ListActivity extends BaseActivity implements InputDialog.InputListe
     /**
      * 关闭输入框
      */
-    private void dismissInputDialog() {
+    private void dismissInputDialog(int code) {
         if (mInputDialog != null) {
-            mInputDialog.dismiss();
+            mInputDialog.dismissInputDialog(code);
         }
     }
 
@@ -105,6 +120,5 @@ public class ListActivity extends BaseActivity implements InputDialog.InputListe
     @Override
     public void onInputComplete(String text) {
         //TODO
-        dismissInputDialog();
     }
 }

@@ -1,4 +1,4 @@
-package com.android.record.list.fragment;
+package com.android.record.common.dialog;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.android.record.R;
+import com.dd.processbutton.iml.ActionProcessButton;
 
 
 /**
@@ -21,18 +22,28 @@ import com.android.record.R;
 public class InputDialog extends DialogFragment implements View.OnClickListener{
 
     EditText inputEdit;
-    Button inputConfirm;
+    ActionProcessButton inputConfirm;
 
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.input_confirm :
+                inputConfirm.setProgress(50);
                 InputListener listener = (InputListener) getActivity();
                 listener.onInputComplete(inputEdit.getText().toString());
                 inputEdit.setText("");
                 break;
         }
+    }
+
+    public void dismissInputDialog(int code){
+        if (code == -1){
+            inputConfirm.setProgress(-1);
+        }else {
+            inputConfirm.setProgress(100);
+        }
+        dismiss();
     }
 
     public interface InputListener {
@@ -60,6 +71,6 @@ public class InputDialog extends DialogFragment implements View.OnClickListener{
 
     private void initView(View view){
         inputEdit = (EditText) view.findViewById(R.id.input_edit);
-        inputConfirm = (Button) view.findViewById(R.id.input_confirm);
+        inputConfirm = (ActionProcessButton) view.findViewById(R.id.input_confirm);
     }
 }
