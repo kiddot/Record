@@ -14,7 +14,6 @@ import com.android.record.base.dao.AppDaoManager;
 import com.android.record.base.dao.DaoManager;
 import com.android.record.common.dao.RecordDaoHelper;
 import com.android.record.common.dao.RecordDaoManager;
-import com.android.record.greendao.SwipeCardBeanDao;
 import com.android.record.list.SwipeCardBean;
 import com.android.record.list.TanTanCallback;
 import com.android.record.list.adapter.ListAdapter;
