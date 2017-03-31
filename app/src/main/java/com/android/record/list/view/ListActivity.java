@@ -42,77 +42,18 @@ public class ListActivity extends BaseActivity{
     @Override
     protected void init(Bundle savedInstanceState) {
         mFragment = new ListFragment();
-//        getSupportFragmentManager().beginTransaction()
-//                .replace(R.id.list_fl_container, mFragment).commit();
-
         ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragment, R.id.list_fl_container);
         mListPresenter = new ListPresenter(mFragment);
         mFragment.setPresenter(mListPresenter);
-//        initView();
-//        initData();
-//        setConfig();
     }
 
-//    private void initData() {
-//        mUsername = mUserManager.getUserName();
-//    }
-//
-////    public void initView(){
-////        mUserManager = UserManager.getInstance(this);
-////        mAdapter = new ListAdapter(this, mData = SwipeCardBean.initDatas(),R.layout.part_item_list);
-////        mRecyclerView = (RecyclerView) findViewById(R.id.rv);
-////        mRecyclerView.setLayoutManager(new OverLayCardLayoutManager());
-////        mRecyclerView.setAdapter(mAdapter);
-////    }
-////
-////    public void setConfig(){
-////        CardConfig.initConfig(this);
-////        CardConfig.MAX_SHOW_COUNT = 6;
-////        final TanTanCallback callback = new TanTanCallback(mRecyclerView, mAdapter, mData);
-////
-////        //测试竖直滑动是否已经不会被移除屏幕
-////        //callback.setHorizontalDeviation(Integer.MAX_VALUE);
-////
-////        final ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
-////        itemTouchHelper.attachToRecyclerView(mRecyclerView);
-////    }
-////
     public void editCard(View view){
         mFragment.editCard();
     }
-////
     public void search(View view){
         mFragment.search();
     }
-////
     public void addCard(View view){
         mFragment.addCard();
     }
-////
-////    /**
-////     * 弹出输入框
-////     */
-////    private void showInputDialog() {
-////        mInputDialog = new InputDialog();
-////        mInputDialog.show(getSupportFragmentManager(), "inputDialog");
-////    }
-////
-////    /**
-////     * 关闭输入框
-////     */
-////    private void dismissInputDialog(int code) {
-////        if (mInputDialog != null) {
-////            mInputDialog.dismissInputDialog(code);
-////        }
-////    }
-////
-////    /**
-////     * 获取输入框的内容
-////     *
-////     * @param text
-////     */
-////    @Override
-////    public void onInputComplete(String text) {
-////        //TODO
-////    }
 }

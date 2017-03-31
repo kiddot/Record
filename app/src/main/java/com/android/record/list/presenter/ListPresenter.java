@@ -3,18 +3,15 @@ package com.android.record.list.presenter;
 import android.content.Context;
 import android.util.Log;
 
-import com.android.record.base.dao.AppDaoManager;
-import com.android.record.base.dao.DaoManager;
 import com.android.record.base.util.Check;
 import com.android.record.bean.GsonCard;
 import com.android.record.bean.SwipeCardBean;
 import com.android.record.common.AppConstant;
 import com.android.record.common.dao.CommonDao;
-import com.android.record.common.dao.RecordDaoHelper;
-import com.android.record.common.dao.RecordDaoManager;
-import com.android.record.list.CardEvent;
+import com.android.record.list.event.GetCardEvent;
 import com.android.record.list.api.ListService;
 import com.android.record.list.contract.ListTaskContract;
+import com.android.record.list.event.SendCardEvent;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -66,11 +63,21 @@ public class ListPresenter implements ListTaskContract.Presenter{
     }
 
     @Override
-    public void sendCard() {
+    public void sendCard(final Context context) {
         mListService.sendCard("send", mListTaskView.getUserName(), mListTaskView.getPosition(),
                 mListTaskView.getDescription(),System.currentTimeMillis())
 
                 .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .doOnNext(new Action1<GsonCard>() {
+                    @Override
+                    public void call(GsonCard gsonCard) {
+                        List<SwipeCardBean> cardBeans = gsonCard.getData();
+                        if (!Check.isEmpty(cardBeans)){
+                            CommonDao.insert(context, cardBeans);
+                        }
+                    }
+                })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<GsonCard>() {
                     @Override
@@ -86,6 +93,9 @@ public class ListPresenter implements ListTaskContract.Presenter{
                     @Override
                     public void onNext(GsonCard gsonCard) {
                         Log.d(TAG, "onNext: GsonCard" + gsonCard.getCode());
+                        if (gsonCard.getCode() == 200){
+                            EventBus.getDefault().post(new SendCardEvent(true,null));
+                        }
                     }
                 });
     }
@@ -120,7 +130,7 @@ public class ListPresenter implements ListTaskContract.Presenter{
                     public void onNext(GsonCard gsonCard) {
                         Log.d(TAG, "onNext: code" + gsonCard.getCode());
                         if (gsonCard.getCode() == 200){
-                            EventBus.getDefault().post(new CardEvent(true, gsonCard.getData()));
+                            EventBus.getDefault().post(new GetCardEvent(true, gsonCard.getData()));
                         }
                     }
                 });

@@ -18,7 +18,7 @@ public class ListTaskContract {
     }
 
     public interface Presenter extends BasePresenter{
-        void sendCard();
+        void sendCard(Context context);
         void getCard(Context context);
     }
 }

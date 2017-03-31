@@ -1,26 +1,19 @@
 package com.android.record.list.view;
 
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 
 import com.android.record.R;
 import com.android.record.base.componet.BaseFragment;
-import com.android.record.base.dao.AppDaoManager;
-import com.android.record.base.dao.DaoManager;
 import com.android.record.bean.SwipeCardBean;
-import com.android.record.common.dao.RecordDaoHelper;
-import com.android.record.common.dao.RecordDaoManager;
 import com.android.record.common.dialog.InputDialog;
 import com.android.record.common.sp.UserManager;
-import com.android.record.list.CardEvent;
+import com.android.record.list.event.GetCardEvent;
 import com.android.record.list.TanTanCallback;
 import com.android.record.list.adapter.ListAdapter;
 import com.android.record.list.contract.ListTaskContract;
-import com.android.record.login.event.LoginEvent;
-import com.android.record.main.view.MainActivity;
+import com.android.record.list.event.SendCardEvent;
 import com.mcxtzhang.layoutmanager.swipecard.CardConfig;
 import com.mcxtzhang.layoutmanager.swipecard.OverLayCardLayoutManager;
 
@@ -43,6 +36,7 @@ public class ListFragment extends BaseFragment implements InputDialog.InputListe
     private InputDialog mInputDialog;
     private UserManager mUserManager;
     private String mUsername ;
+    private String mDescription;
     private ListTaskContract.Presenter mPresenter;
 
 
@@ -94,13 +88,13 @@ public class ListFragment extends BaseFragment implements InputDialog.InputListe
     }
 
     public void addCard(){
-        mPresenter.sendCard();
+        showInputDialog();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onReceiveCardEvent(CardEvent event){
+    public void onReceiveGetCardEvent(GetCardEvent event){
         boolean isSuccess = event.isSuccess();
-        Log.d(TAG, "onReceiveCardEvent: " + isSuccess);
+        Log.d(TAG, "onReceiveGetCardEvent: " + isSuccess);
         dismissLoading();
         if (isSuccess){
             mData.addAll(event.getmCardList());
@@ -110,9 +104,21 @@ public class ListFragment extends BaseFragment implements InputDialog.InputListe
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onReceiveSendCardEvent(SendCardEvent event){
+        boolean isSuccess = event.isSuccess();
+        Log.d(TAG, "onReceiveSendCardEvent: " + isSuccess);
+        if (isSuccess){
+            dismissInputDialog(1);
+        } else {
+            dismissInputDialog(-1);
+            showToast("获取数据失败，请检查网络~");
+        }
+    }
+
     @Override
     public String getDescription() {
-        return null;
+        return mDescription;
     }
 
     @Override
@@ -129,7 +135,10 @@ public class ListFragment extends BaseFragment implements InputDialog.InputListe
      * 弹出输入框
      */
     private void showInputDialog() {
-        mInputDialog = new InputDialog();
+        if (mInputDialog == null){
+            mInputDialog = new InputDialog();
+            mInputDialog.setInputListener(this);
+        }
         mInputDialog.show(getActivity().getSupportFragmentManager(), "inputDialog");
     }
 
@@ -149,6 +158,8 @@ public class ListFragment extends BaseFragment implements InputDialog.InputListe
      */
     @Override
     public void onInputComplete(String text) {
+        mDescription = text;
+        mPresenter.sendCard(getActivity());
     }
 
     @Override

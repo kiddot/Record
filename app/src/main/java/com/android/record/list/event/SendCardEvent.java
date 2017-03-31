@@ -1,4 +1,4 @@
-package com.android.record.list;
+package com.android.record.list.event;
 
 import com.android.record.bean.SwipeCardBean;
 
@@ -8,8 +8,7 @@ import java.util.List;
  * Created by kiddo on 17-3-31.
  */
 
-public class CardEvent {
-
+public class SendCardEvent {
     private boolean isSuccess;
 
     private List<SwipeCardBean> mCardList;
@@ -22,7 +21,7 @@ public class CardEvent {
         this.mCardList = mCardList;
     }
 
-    public CardEvent(boolean isSuccess, List<SwipeCardBean> list) {
+    public SendCardEvent(boolean isSuccess, List<SwipeCardBean> list) {
         this.isSuccess = isSuccess;
         this.mCardList = list;
     }

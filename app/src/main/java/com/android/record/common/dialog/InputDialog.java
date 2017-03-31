@@ -4,15 +4,16 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.EditText;
 
 import com.android.record.R;
 import com.dd.processbutton.iml.ActionProcessButton;
+
 
 
 /**
@@ -20,18 +21,26 @@ import com.dd.processbutton.iml.ActionProcessButton;
  * Created by kid on 2016/11/10.
  */
 public class InputDialog extends DialogFragment implements View.OnClickListener{
+    public static final String TAG = InputDialog.class.getSimpleName();
 
-    EditText inputEdit;
-    ActionProcessButton inputConfirm;
+    private EditText inputEdit;
+    private ActionProcessButton inputConfirm;
+    private InputListener mInputListener;
 
+    public void setInputListener(InputListener inputListener){
+        mInputListener = inputListener;
+    }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.input_confirm :
                 inputConfirm.setProgress(50);
-                InputListener listener = (InputListener) getActivity();
-                listener.onInputComplete(inputEdit.getText().toString());
+                if (mInputListener != null){
+                    mInputListener.onInputComplete(inputEdit.getText().toString());
+                } else {
+                    Log.d(TAG, " mInputListener" + "请进行事件监听");
+                }
                 inputEdit.setText("");
                 break;
         }
