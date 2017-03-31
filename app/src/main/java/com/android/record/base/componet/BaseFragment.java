@@ -13,6 +13,8 @@ import com.android.record.base.util.DialogFragmentHelper;
 import com.android.record.base.util.HandleUtil;
 import com.android.record.base.util.Toastor;
 
+import org.greenrobot.eventbus.EventBus;
+
 import static com.android.record.RecordApplication.getContext;
 
 /**
@@ -26,6 +28,18 @@ public abstract class BaseFragment extends Fragment {
     public void onStart() {
         super.onStart();
         init();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Nullable

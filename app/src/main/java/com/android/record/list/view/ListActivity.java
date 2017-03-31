@@ -10,6 +10,8 @@ import android.view.View;
 
 import com.android.record.R;
 import com.android.record.base.componet.BaseActivity;
+import com.android.record.base.util.ActivityUtils;
+import com.android.record.list.presenter.ListPresenter;
 
 /**
  * Created by kiddo on 17-3-29.
@@ -25,6 +27,7 @@ public class ListActivity extends BaseActivity{
 //    private UserManager mUserManager;
 //    private String mUsername ;
     private ListFragment mFragment = null;
+    private ListPresenter mListPresenter;
 
     public static void startActivity(Context context){
         Intent intent = new Intent(context, ListActivity.class);
@@ -39,8 +42,12 @@ public class ListActivity extends BaseActivity{
     @Override
     protected void init(Bundle savedInstanceState) {
         mFragment = new ListFragment();
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.list_fl_container, mFragment).commit();
+//        getSupportFragmentManager().beginTransaction()
+//                .replace(R.id.list_fl_container, mFragment).commit();
+
+        ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragment, R.id.list_fl_container);
+        mListPresenter = new ListPresenter(mFragment);
+        mFragment.setPresenter(mListPresenter);
 //        initView();
 //        initData();
 //        setConfig();

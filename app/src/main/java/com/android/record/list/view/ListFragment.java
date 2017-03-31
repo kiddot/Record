@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.view.View;
+import android.util.Log;
 
 import com.android.record.R;
 import com.android.record.base.componet.BaseFragment;
@@ -15,10 +15,17 @@ import com.android.record.common.dao.RecordDaoHelper;
 import com.android.record.common.dao.RecordDaoManager;
 import com.android.record.common.dialog.InputDialog;
 import com.android.record.common.sp.UserManager;
+import com.android.record.list.CardEvent;
 import com.android.record.list.TanTanCallback;
 import com.android.record.list.adapter.ListAdapter;
+import com.android.record.list.contract.ListTaskContract;
+import com.android.record.login.event.LoginEvent;
+import com.android.record.main.view.MainActivity;
 import com.mcxtzhang.layoutmanager.swipecard.CardConfig;
 import com.mcxtzhang.layoutmanager.swipecard.OverLayCardLayoutManager;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +34,7 @@ import java.util.List;
  * Created by kiddo on 17-3-31.
  */
 
-public class ListFragment extends BaseFragment implements InputDialog.InputListener{
+public class ListFragment extends BaseFragment implements InputDialog.InputListener, ListTaskContract.View{
     public static final String TAG = ListFragment.class.getSimpleName();
 
     private RecyclerView mRecyclerView;
@@ -36,10 +43,13 @@ public class ListFragment extends BaseFragment implements InputDialog.InputListe
     private InputDialog mInputDialog;
     private UserManager mUserManager;
     private String mUsername ;
+    private ListTaskContract.Presenter mPresenter;
 
 
     private void initData() {
         mUsername = mUserManager.getUserName();
+        showLoading("正在加载数据...");
+        mPresenter.getCard(getActivity());
     }
 
     @Override
@@ -55,8 +65,9 @@ public class ListFragment extends BaseFragment implements InputDialog.InputListe
     }
 
     public void initView(){
+        mData = new ArrayList<>();
         mUserManager = UserManager.getInstance(getActivity());
-        mAdapter = new ListAdapter(getActivity(), mData = SwipeCardBean.initDatas(), R.layout.part_item_list);
+        mAdapter = new ListAdapter(getActivity(), mData, R.layout.part_item_list);
         mRecyclerView = (RecyclerView) getActivity().findViewById(R.id.rv);
         mRecyclerView.setLayoutManager(new OverLayCardLayoutManager());
         mRecyclerView.setAdapter(mAdapter);
@@ -83,16 +94,35 @@ public class ListFragment extends BaseFragment implements InputDialog.InputListe
     }
 
     public void addCard(){
-        showToast("click");
-        DaoManager daoManager = AppDaoManager.get(mUsername);
-        if (daoManager ==null){
-            daoManager = new RecordDaoManager(getActivity(), mUsername, RecordDaoHelper.getInstance());
+        mPresenter.sendCard();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onReceiveCardEvent(CardEvent event){
+        boolean isSuccess = event.isSuccess();
+        Log.d(TAG, "onReceiveCardEvent: " + isSuccess);
+        dismissLoading();
+        if (isSuccess){
+            mData.addAll(event.getmCardList());
+            mAdapter.notifyDataSetChanged();
+        } else {
+            showToast("获取数据失败，请检查网络~");
         }
-        List<SwipeCardBean> list = new ArrayList<>();
-        SwipeCardBean swipeCardBean = new SwipeCardBean(mAdapter.getItemCount()+1,null,"ldk",2017);
-        list.add(swipeCardBean);
-        daoManager.insert(swipeCardBean);
-        //TODO
+    }
+
+    @Override
+    public String getDescription() {
+        return null;
+    }
+
+    @Override
+    public String getUserName() {
+        return mUsername;
+    }
+
+    @Override
+    public int getPosition() {
+        return mAdapter.getItemCount() + 1;
     }
 
     /**
@@ -119,6 +149,12 @@ public class ListFragment extends BaseFragment implements InputDialog.InputListe
      */
     @Override
     public void onInputComplete(String text) {
-        //TODO
+    }
+
+    @Override
+    public void setPresenter(ListTaskContract.Presenter presenter) {
+        if (presenter != null){
+            mPresenter = presenter;
+        }
     }
 }

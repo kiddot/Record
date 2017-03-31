@@ -5,5 +5,8 @@ package com.android.record.base.mvp;
  */
 
 public interface BasePresenter {
-    void start();
+
+    void subscribe();
+
+    void unsubscribe();
 }
