@@ -9,7 +9,7 @@ import org.greenrobot.greendao.identityscope.IdentityScopeType;
 import org.greenrobot.greendao.internal.DaoConfig;
 
 import com.android.record.bean.user;
-import com.android.record.list.SwipeCardBean;
+import com.android.record.bean.SwipeCardBean;
 
 import com.android.record.greendao.userDao;
 import com.android.record.greendao.SwipeCardBeanDao;

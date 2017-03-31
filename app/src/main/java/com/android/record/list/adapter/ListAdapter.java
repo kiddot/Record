@@ -4,7 +4,7 @@ import android.content.Context;
 import android.widget.ImageView;
 
 import com.android.record.R;
-import com.android.record.list.SwipeCardBean;
+import com.android.record.bean.SwipeCardBean;
 import com.mcxtzhang.commonadapter.rv.CommonAdapter;
 import com.mcxtzhang.commonadapter.rv.ViewHolder;
 import com.squareup.picasso.Picasso;

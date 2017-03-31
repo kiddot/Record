@@ -8,6 +8,8 @@ import android.support.v4.app.DialogFragment;
 import com.android.record.base.thread.ThreadPoolConst;
 import com.android.record.base.thread.ThreadPoolManager;
 import com.android.record.base.util.DialogFragmentHelper;
+import com.android.record.base.util.HandleUtil;
+import com.android.record.base.util.Toastor;
 
 import java.util.concurrent.Executor;
 
@@ -26,7 +28,6 @@ public abstract class BaseFragment extends MSBaseFragment{
 
     @Override
     protected void init(Bundle savedInstanceState) {
-        ButterKnife.bind(this , getContentView());
     }
 
     private DialogFragment mLoadingDialog;
