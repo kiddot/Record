@@ -36,7 +36,6 @@ public class ListAdapter extends CommonAdapter<SwipeCardBean> {
             ImageView imageView = viewHolder.getView(R.id.list_iv_photo);
             imageView.setBackground(mContext.getResources().getDrawable(R.mipmap.fragment_list_add));
         }
-            //Picasso.with(mContext).load(swipeCardBean.getUrl()).into((ImageView) viewHolder.getView(R.id.list_iv_photo));
     }
 
     @Override
