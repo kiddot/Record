@@ -97,7 +97,7 @@ public class ListFragment extends BaseFragment implements InputDialog.InputListe
 
     public void addPhoto(){
         Log.d(TAG, "addPhoto: ");
-        ChooseImageActivity.startActivity(getActivity(), 1, 1);
+        ChooseImageActivity.startActivityInSingleMode(getActivity(), 1 , 1);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -128,6 +128,7 @@ public class ListFragment extends BaseFragment implements InputDialog.InputListe
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReceiveImageSelectedFinishedEvent(ImageSelectedFinishedEvent event){
         String path = event.selectedImagesPath.get(0);
+        Log.d(TAG, "onReceiveImageSelectedFinishedEvent: " + path);
         //mData.get(mAdapter)
     }
 

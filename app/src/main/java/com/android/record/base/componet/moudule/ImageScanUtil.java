@@ -115,10 +115,6 @@ public class ImageScanUtil {
 
         // 排序
         Collections.sort(resultImgList, fileComparator);
-        Log.d(TAG, "scanAll: " + allImgCount);
-        for (int i =0 ; i < resultImgList.size(); i++){
-            Log.d(TAG, "scanAll: " + resultImgList.get(i));
-        }
         return allImgCount;
     }
 

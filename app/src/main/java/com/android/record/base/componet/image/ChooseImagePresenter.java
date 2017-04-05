@@ -135,7 +135,9 @@ public class ChooseImagePresenter {
                 .subscribe(new Observer<Object>() {
                     @Override
                     public void onCompleted() {
-
+                        if (mChooseImageView != null) {
+                            mChooseImageView.notifyRecycleViewRefresh();
+                        }
                     }
 
                     @Override
@@ -146,9 +148,7 @@ public class ChooseImagePresenter {
                     @Override
                     public void onNext(Object o) {
                         Log.d(TAG, "next: ");
-                        if (mChooseImageView != null) {
-                            mChooseImageView.notifyRecycleViewRefresh();
-                        }
+
                     }
                 });
     }

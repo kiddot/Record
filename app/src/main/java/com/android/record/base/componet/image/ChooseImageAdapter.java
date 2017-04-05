@@ -45,7 +45,6 @@ public class ChooseImageAdapter extends ClickableAdapter<ChooseImageAdapter.Choo
         final ImageView ivImageView = holder.ivImage;
         final ImageView ivSelect = holder.ivSelectState;
         final String imageUrl = mChooseImagePresenter.getAllImgs().get(position);
-        Log.d(TAG, "onBindVH: " + imageUrl);
 
         ivImageView.setColorFilter(null);
         holder.itemView.setTag(position);
