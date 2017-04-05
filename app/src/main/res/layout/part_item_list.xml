@@ -11,12 +11,13 @@
     app:cardBackgroundColor="#393F4E">
 
     <ImageView
-        android:id="@+id/iv"
+        android:id="@+id/list_iv_photo"
         android:layout_width="170dp"
         android:layout_height="200dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
-        tools:src="@mipmap/pic10"/>
+        android:onClick="addPhoto"
+        tools:src="@mipmap/fragment_list_add"/>
 
     <TextView
         android:id="@+id/tvName"

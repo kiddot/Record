@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.android.record.base.componet.image.CommonImageLoader;
 import com.android.record.greendao.DaoMaster;
 import com.android.record.greendao.DaoSession;
 
@@ -24,6 +25,7 @@ public class RecordApplication extends Application{
         super.onCreate();
         mApplication = this;
         mContext = getApplicationContext();
+        initUniversialImageLoader();
         //setDatabase();
     }
 
@@ -33,6 +35,11 @@ public class RecordApplication extends Application{
 
     public static Context getContext(){
         return mContext;
+    }
+
+    private void initUniversialImageLoader() {
+        CommonImageLoader.init(getApplicationContext());
+        CommonImageLoader.debug(false);
     }
 
     private void setDatabase() {

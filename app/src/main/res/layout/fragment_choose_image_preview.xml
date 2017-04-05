@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="#000">
+
+    <include
+        android:id="@+id/choose_img_rv_title_bar"
+        layout="@layout/title_layout" />
+
+    <RelativeLayout
+        android:id="@+id/choose_img_rl_bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:layout_alignParentBottom="true"
+        android:background="#e0000000"
+        android:clickable="true">
+
+        <CheckBox
+            android:id="@+id/choose_img_cb"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignBaseline="@+id/choose_img_tv_dir"
+            android:layout_alignBottom="@+id/choose_img_tv_dir"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="14dp"
+            android:layout_marginRight="14dp"
+            android:background="@drawable/common_selector_cb"
+            android:button="@null"
+            android:gravity="center" />
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/photo_pager_fl_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/choose_img_rl_bottom_bar"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/choose_img_rv_title_bar" />
+
+</RelativeLayout>

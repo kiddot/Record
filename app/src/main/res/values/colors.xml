@@ -3,6 +3,7 @@
     <color name="colorPrimary">#6ebcf8</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="background">#7adfb8</color>
     <color name="transparent">#00000000</color>
     <color name="blue_normal">#6d9eeb</color>
     <color name="purple_progress">#ff00ff</color>

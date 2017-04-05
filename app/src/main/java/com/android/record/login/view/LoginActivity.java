@@ -49,15 +49,16 @@ public class LoginActivity extends BaseActivity{
     }
 
     public void login(View view){
-        String username = mLoginBinding.loginEtUsername.getText().toString();
-        String password = mLoginBinding.loginEtPassword.getText().toString();
-        if (Check.isEmpty(username) || Check.isEmpty(password)){
-            showToast("请检查账号或者密码是否为空");
-        }else {
-            mLoginAndRegister.login(this, "login", username, password);
-            mLoginBinding.loginBtnLogin.setProgress(50);
-            Log.d(TAG, "用户正在尝试登录  ----ing ");
-        }
+//        String username = mLoginBinding.loginEtUsername.getText().toString();
+//        String password = mLoginBinding.loginEtPassword.getText().toString();
+//        if (Check.isEmpty(username) || Check.isEmpty(password)){
+//            showToast("请检查账号或者密码是否为空");
+//        }else {
+//            mLoginAndRegister.login(this, "login", username, password);
+//            mLoginBinding.loginBtnLogin.setProgress(50);
+//            Log.d(TAG, "用户正在尝试登录  ----ing ");
+//        }
+        MainActivity.startActivity(this);
     }
 
     public void signUp(View view){

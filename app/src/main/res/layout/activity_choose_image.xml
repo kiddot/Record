@@ -1,0 +1,64 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <include
+        android:id="@+id/choose_img_rv_title_bar"
+        layout="@layout/title_layout" />
+
+    <RelativeLayout
+        android:id="@+id/choose_img_rl_bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:layout_alignParentBottom="true"
+        android:background="#e0000000"
+        android:clickable="true">
+
+        <TextView
+            android:id="@+id/choose_img_tv_preview"
+            android:layout_width="50dip"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:gravity="center"
+            android:text="预览"
+            android:textColor="@android:color/white"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/choose_img_tv_dir"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:maxLines="1"
+            android:layout_toLeftOf="@id/choose_img_tv_preview"
+            android:layout_toStartOf="@id/choose_img_tv_preview"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dip"
+            android:text="所有图片 >"
+            android:textColor="@android:color/white" />
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/choose_img_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/choose_img_rl_bottom_bar"
+        android:layout_below="@id/choose_img_rv_title_bar"
+        android:cacheColorHint="@android:color/transparent">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <FrameLayout
+        android:id="@+id/choose_image_fl_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</RelativeLayout>

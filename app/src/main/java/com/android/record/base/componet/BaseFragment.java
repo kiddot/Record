@@ -25,8 +25,8 @@ public abstract class BaseFragment extends Fragment {
     private Toastor mToast;
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         init();
     }
 

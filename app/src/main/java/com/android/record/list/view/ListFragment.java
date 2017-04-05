@@ -3,9 +3,12 @@ package com.android.record.list.view;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
+import android.widget.ImageView;
 
 import com.android.record.R;
 import com.android.record.base.componet.BaseFragment;
+import com.android.record.base.componet.image.ChooseImageActivity;
+import com.android.record.base.componet.event.ImageSelectedFinishedEvent;
 import com.android.record.bean.SwipeCardBean;
 import com.android.record.common.dialog.InputDialog;
 import com.android.record.common.sp.UserManager;
@@ -38,6 +41,7 @@ public class ListFragment extends BaseFragment implements InputDialog.InputListe
     private String mUsername ;
     private String mDescription;
     private ListTaskContract.Presenter mPresenter;
+    private ImageView mPhoto;
 
 
     private void initData() {
@@ -91,6 +95,11 @@ public class ListFragment extends BaseFragment implements InputDialog.InputListe
         showInputDialog();
     }
 
+    public void addPhoto(){
+        Log.d(TAG, "addPhoto: ");
+        ChooseImageActivity.startActivity(getActivity(), 1, 1);
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReceiveGetCardEvent(GetCardEvent event){
         boolean isSuccess = event.isSuccess();
@@ -114,6 +123,12 @@ public class ListFragment extends BaseFragment implements InputDialog.InputListe
             dismissInputDialog(-1);
             showToast("获取数据失败，请检查网络~");
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onReceiveImageSelectedFinishedEvent(ImageSelectedFinishedEvent event){
+        String path = event.selectedImagesPath.get(0);
+        //mData.get(mAdapter)
     }
 
     @Override
