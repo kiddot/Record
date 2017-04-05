@@ -3,6 +3,7 @@ package com.android.record.list.view;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.android.record.R;
@@ -95,10 +96,10 @@ public class ListFragment extends BaseFragment implements InputDialog.InputListe
         showInputDialog();
     }
 
-    public void addPhoto(){
-        Log.d(TAG, "addPhoto: ");
-        ChooseImageActivity.startActivityInSingleMode(getActivity(), 1 , 1);
-    }
+//    public void addPhoto(){
+//        Log.d(TAG, "addPhoto: " );
+//        ChooseImageActivity.startActivityInSingleMode(getActivity(), 1 , 1, 8);
+//    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReceiveGetCardEvent(GetCardEvent event){
@@ -128,8 +129,10 @@ public class ListFragment extends BaseFragment implements InputDialog.InputListe
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReceiveImageSelectedFinishedEvent(ImageSelectedFinishedEvent event){
         String path = event.selectedImagesPath.get(0);
-        Log.d(TAG, "onReceiveImageSelectedFinishedEvent: " + path);
+        Log.d(TAG, "onReceiveImageSelectedFinishedEvent: " + path + event.position + mUsername);
         //mData.get(mAdapter)
+        mAdapter.notifyItemChanged(event.position - 1);
+        mPresenter.uploadPhoto(getActivity(), path, mUsername, event.position);
     }
 
     @Override
@@ -176,6 +179,11 @@ public class ListFragment extends BaseFragment implements InputDialog.InputListe
     public void onInputComplete(String text) {
         mDescription = text;
         mPresenter.sendCard(getActivity());
+        SwipeCardBean swipeCardBean = new SwipeCardBean(mAdapter.getItemCount()+1,"0",text,System.currentTimeMillis());
+        List<SwipeCardBean> list = new ArrayList<>();
+        list.add(swipeCardBean);
+        mData.addAll(list);
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override

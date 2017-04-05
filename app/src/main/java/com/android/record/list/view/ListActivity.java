@@ -56,7 +56,4 @@ public class ListActivity extends BaseActivity{
     public void addCard(View view){
         mFragment.addCard();
     }
-    public void addPhoto(View view){
-        mFragment.addPhoto();
-    }
 }

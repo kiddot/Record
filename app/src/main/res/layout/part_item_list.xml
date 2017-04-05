@@ -16,7 +16,6 @@
         android:layout_height="200dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
-        android:onClick="addPhoto"
         tools:src="@mipmap/fragment_list_add"/>
 
     <TextView

@@ -58,6 +58,7 @@ public class ChooseImagePresenter {
      */
     private int mSelectLimitNum;
     private int mRequestHashcode;
+    private int mPosition;
     /**
      * 选择模式，默认是多选模式
      */
@@ -70,11 +71,12 @@ public class ChooseImagePresenter {
     private ChooseImageViewImpl mChooseImageView;
 
     public ChooseImagePresenter(int selectLimitNum, int requestHashcode, int choiceMode,
-                                ChooseImageViewImpl view) {
+                                ChooseImageViewImpl view, int position) {
         this.mSelectLimitNum = selectLimitNum;
         this.mRequestHashcode = requestHashcode;
         this.mChoiceMode = choiceMode;
         this.mChooseImageView = view;
+        this.mPosition = position;
     }
 
     public interface ChooseImageViewImpl {
@@ -184,6 +186,10 @@ public class ChooseImagePresenter {
 
     public int getRequestHashcode() {
         return mRequestHashcode;
+    }
+
+    public int getPosition(){
+        return mPosition;
     }
 
     public List<ImageFolderBean> getImageFolders() {

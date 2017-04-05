@@ -56,6 +56,7 @@ public class ChooseImageActivity extends BaseActivity implements View.OnClickLis
     private static final String SELECT_LIMIT_KEY = "select_limit_key";
     private static final String REQUEST_HASHCODE_KEY = "request_hashcode_key";
     private static final String KEY_CHOICE_MODE = "KEY_CHOICE_MODE";
+    private static final String POSITION_CODE = "POSITION_CODE";
 
     private static final int REQUEST_CODE_READ_EX_PERM = 0X333;
 
@@ -94,10 +95,11 @@ public class ChooseImageActivity extends BaseActivity implements View.OnClickLis
         context.startActivity(intent);
     }
 
-    public static void startActivityInSingleMode(Context context, int selectLimitNum, int requestHashcode) {
+    public static void startActivityInSingleMode(Context context, int selectLimitNum, int requestHashcode, int position) {
         Intent intent = new Intent(context, ChooseImageActivity.class);
         intent.putExtra(SELECT_LIMIT_KEY, selectLimitNum);
         intent.putExtra(REQUEST_HASHCODE_KEY, requestHashcode);
+        intent.putExtra(POSITION_CODE, position);
         intent.putExtra(KEY_CHOICE_MODE, ChooseImagePresenter.SINGLE_CHOICE_MODE);
         context.startActivity(intent);
     }
@@ -147,8 +149,9 @@ public class ChooseImageActivity extends BaseActivity implements View.OnClickLis
         Intent intent = getIntent();
         int selectLimitNum = intent.getIntExtra(SELECT_LIMIT_KEY, 0);
         int requestHashcode = intent.getIntExtra(REQUEST_HASHCODE_KEY, 0);
+        int position = intent.getIntExtra(POSITION_CODE, 0);
         int choiceMode = intent.getIntExtra(KEY_CHOICE_MODE, ChooseImagePresenter.MULTI_CHOICE_MODE);
-        mChooseImagePresenter = new ChooseImagePresenter(selectLimitNum, requestHashcode, choiceMode, this);
+        mChooseImagePresenter = new ChooseImagePresenter(selectLimitNum, requestHashcode, choiceMode, this, position);
     }
 
     /**
@@ -187,7 +190,7 @@ public class ChooseImageActivity extends BaseActivity implements View.OnClickLis
         mTvFinished.setClickable(false);
         EventBus.getDefault().post(
                 new ImageSelectedFinishedEvent(mChooseImagePresenter.getRequestHashcode(),
-                        mChooseImagePresenter.getSelectedImage()));
+                        mChooseImagePresenter.getSelectedImage(), mChooseImagePresenter.getPosition()));
         finish();
     }
 

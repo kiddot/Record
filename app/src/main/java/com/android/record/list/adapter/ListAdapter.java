@@ -1,9 +1,12 @@
 package com.android.record.list.adapter;
 
 import android.content.Context;
+import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.android.record.R;
+import com.android.record.base.componet.image.ChooseImageActivity;
 import com.android.record.base.componet.image.CommonImageLoader;
 import com.android.record.bean.SwipeCardBean;
 import com.mcxtzhang.commonadapter.rv.CommonAdapter;
@@ -29,7 +32,21 @@ public class ListAdapter extends CommonAdapter<SwipeCardBean> {
         viewHolder.setText(R.id.tvPrecent, swipeCardBean.getPosition() + " /" + mDatas.size());
         if (swipeCardBean.getUrl() != null && !swipeCardBean.getUrl().equals("0")){
             CommonImageLoader.displayImage(swipeCardBean.getUrl(), (ImageView) viewHolder.getView(R.id.list_iv_photo), CommonImageLoader.DOUBLE_CACHE_OPTIONS);
+        } else {
+            ImageView imageView = viewHolder.getView(R.id.list_iv_photo);
+            imageView.setBackground(mContext.getResources().getDrawable(R.mipmap.fragment_list_add));
         }
             //Picasso.with(mContext).load(swipeCardBean.getUrl()).into((ImageView) viewHolder.getView(R.id.list_iv_photo));
+    }
+
+    @Override
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
+        holder.getView(R.id.list_iv_photo).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ChooseImageActivity.startActivityInSingleMode(mContext, 1, 1, holder.getAdapterPosition() + 1);
+            }
+        });
     }
 }

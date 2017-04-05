@@ -15,8 +15,17 @@ import com.android.record.list.event.SendCardEvent;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -108,6 +117,7 @@ public class ListPresenter implements ListTaskContract.Presenter{
                 .doOnNext(new Action1<GsonCard>() {//将获取到的数据插入本地数据库
                     @Override
                     public void call(GsonCard gsonCard) {
+                        Log.d(TAG, "call: 开始录入本地数据库");
                         List<SwipeCardBean> cardBeans = gsonCard.getData();
                         if (!Check.isEmpty(cardBeans)){
                             CommonDao.insert(context, cardBeans);
@@ -134,5 +144,33 @@ public class ListPresenter implements ListTaskContract.Presenter{
                         }
                     }
                 });
+    }
+
+    @Override
+    public void uploadPhoto(Context context, String path, String username, int position) {
+        File imageFile = new File(path);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
+        MultipartBody.Part body = MultipartBody.Part.createFormData("file", imageFile.getName(), requestBody);
+        Call<ResponseBody> call = mListService.upload("file",username, position, body);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    Log.d("Upload", "success:"+response.body().string());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.e("Upload error:", t.getMessage());
+            }
+        });
+    }
+
+    @Override
+    public void downloadPhoto(Context context) {
+
     }
 }

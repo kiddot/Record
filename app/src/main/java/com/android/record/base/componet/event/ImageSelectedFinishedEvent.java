@@ -12,9 +12,11 @@ public class ImageSelectedFinishedEvent {
 
     public int requestHashcode;
     public List<String> selectedImagesPath;
+    public int position;
 
-    public ImageSelectedFinishedEvent(int requestHashcode, List<String> selectedImagesPath) {
+    public ImageSelectedFinishedEvent(int requestHashcode, List<String> selectedImagesPath, int position) {
         this.requestHashcode = requestHashcode;
         this.selectedImagesPath = selectedImagesPath;
+        this.position = position;
     }
 }
