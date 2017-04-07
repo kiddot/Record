@@ -3,9 +3,6 @@ package com.android.record.list.view;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 
 import com.android.record.R;
@@ -50,8 +47,8 @@ public class ListActivity extends BaseActivity{
     public void editCard(View view){
         mFragment.editCard();
     }
-    public void search(View view){
-        mFragment.search();
+    public void back(View view){
+        mFragment.back();
     }
     public void addCard(View view){
         mFragment.addCard();

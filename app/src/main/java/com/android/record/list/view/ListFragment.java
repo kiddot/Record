@@ -42,6 +42,7 @@ public class ListFragment extends BaseFragment implements InputDialog.InputListe
     private String mUsername ;
     private String mDescription;
     private ListTaskContract.Presenter mPresenter;
+    private OverLayCardLayoutManager mOverLayCardLayoutManager;
     private ImageView mPhoto;
 
 
@@ -65,10 +66,11 @@ public class ListFragment extends BaseFragment implements InputDialog.InputListe
 
     public void initView(){
         mData = new ArrayList<>();
+        mOverLayCardLayoutManager = new OverLayCardLayoutManager();
         mUserManager = UserManager.getInstance(getActivity());
         mAdapter = new ListAdapter(getActivity(), mData, R.layout.part_item_list);
         mRecyclerView = (RecyclerView) getActivity().findViewById(R.id.rv);
-        mRecyclerView.setLayoutManager(new OverLayCardLayoutManager());
+        mRecyclerView.setLayoutManager(mOverLayCardLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -88,18 +90,14 @@ public class ListFragment extends BaseFragment implements InputDialog.InputListe
         showInputDialog();
     }
 
-    public void search(){
+    public void back(){
         //TODO
+        mOverLayCardLayoutManager.scrollToPosition(2);
     }
 
     public void addCard(){
         showInputDialog();
     }
-
-//    public void addPhoto(){
-//        Log.d(TAG, "addPhoto: " );
-//        ChooseImageActivity.startActivityInSingleMode(getActivity(), 1 , 1, 8);
-//    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReceiveGetCardEvent(GetCardEvent event){

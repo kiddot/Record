@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.android.record.base.util.Check;
+import com.android.record.base.util.CompressImagesHelper;
 import com.android.record.bean.GsonCard;
 import com.android.record.bean.SwipeCardBean;
 import com.android.record.common.AppConstant;
@@ -17,6 +18,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.MediaType;
@@ -141,6 +143,8 @@ public class ListPresenter implements ListTaskContract.Presenter{
                         Log.d(TAG, "onNext: code" + gsonCard.getCode());
                         if (gsonCard.getCode() == 200){
                             EventBus.getDefault().post(new GetCardEvent(true, gsonCard.getData()));
+                        } else {
+                            EventBus.getDefault().post(new GetCardEvent(false, gsonCard.getData()));
                         }
                     }
                 });
@@ -148,7 +152,10 @@ public class ListPresenter implements ListTaskContract.Presenter{
 
     @Override
     public void uploadPhoto(Context context, String path, String username, int position) {
-        File imageFile = new File(path);
+        List<String> originImage = new ArrayList<>();
+        originImage.add(path);
+        String compressPath = CompressImagesHelper.compress(originImage).get(0);
+        File imageFile = new File(compressPath);
         RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
         MultipartBody.Part body = MultipartBody.Part.createFormData("file", imageFile.getName(), requestBody);
         Call<ResponseBody> call = mListService.upload("file",username, position, body);

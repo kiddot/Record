@@ -80,7 +80,7 @@
             <!--android:layout_width="wrap_content"-->
             <!--android:layout_height="wrap_content"-->
             <!--android:src="@drawable/back"-->
-            <!--android:onClick="search"-->
+            <!--android:onClick="back"-->
             <!--fab:fab_size="mini"-->
             <!--fab:fab_label="Menu item 1" />-->
 
