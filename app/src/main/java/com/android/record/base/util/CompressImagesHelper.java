@@ -21,7 +21,7 @@ public class CompressImagesHelper {
             String path = paths.get(i);
             String compressedPath = null;
             try {
-                //compressedPath = CompressImageUtil.compressForSelect(path);
+                compressedPath = CompressImageUtil.compressForSelect(path);
             } catch (Exception e) {
                 Log.e(TAG, "an error happened when a img was compressing");
                 Log.e(TAG, "压缩图片过程发生异常,异常为:");
