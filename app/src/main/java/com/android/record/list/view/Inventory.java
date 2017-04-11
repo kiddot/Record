@@ -1,25 +1,18 @@
 package com.android.record.list.view;
 
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
 
 import com.android.record.R;
 import com.android.record.base.componet.BaseFragment;
-import com.android.record.base.componet.image.ChooseImageActivity;
 import com.android.record.base.componet.event.ImageSelectedFinishedEvent;
 import com.android.record.bean.SwipeCardBean;
 import com.android.record.common.dialog.InputDialog;
 import com.android.record.common.sp.UserManager;
-import com.android.record.list.event.GetCardEvent;
-import com.android.record.list.TanTanCallback;
-import com.android.record.list.adapter.ListAdapter;
+import com.android.record.list.adapter.InventoryAdapter;
 import com.android.record.list.contract.ListTaskContract;
+import com.android.record.list.event.GetCardEvent;
 import com.android.record.list.event.SendCardEvent;
-import com.mcxtzhang.layoutmanager.swipecard.CardConfig;
-import com.mcxtzhang.layoutmanager.swipecard.OverLayCardLayoutManager;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -28,24 +21,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by kiddo on 17-3-31.
+ * Created by kiddo on 17-4-12.
  */
 
-@Deprecated
-public class ListFragment extends BaseFragment implements InputDialog.InputListener, ListTaskContract.View{
-    public static final String TAG = ListFragment.class.getSimpleName();
-
-    private RecyclerView mRecyclerView;
-    private ListAdapter mAdapter;
+public class Inventory extends BaseFragment implements InputDialog.InputListener, ListTaskContract.View{
+    public static final String TAG = Inventory.class.getSimpleName();
+    private ViewPager mViewPager;
     private List<SwipeCardBean> mData;
     private InputDialog mInputDialog;
     private UserManager mUserManager;
     private String mUsername ;
     private String mDescription;
     private ListTaskContract.Presenter mPresenter;
-    private OverLayCardLayoutManager mOverLayCardLayoutManager;
-    private ImageView mPhoto;
+    private InventoryAdapter mAdapter;
 
+    @Override
+    protected int getLayoutId() {
+        return R.layout.fragment_inventory;
+    }
+
+    @Override
+    protected void init() {
+        initView();
+        initData();
+    }
 
     private void initData() {
         mUsername = mUserManager.getUserName();
@@ -53,43 +52,16 @@ public class ListFragment extends BaseFragment implements InputDialog.InputListe
         mPresenter.getCard(getActivity());
     }
 
-    @Override
-    protected int getLayoutId() {
-        return R.layout.fragment_list;
-    }
-
-    @Override
-    protected void init() {
-        initView();
-        initData();
-        setConfig();
-    }
-
-    public void initView(){
-        mData = new ArrayList<>();
-        mOverLayCardLayoutManager = new OverLayCardLayoutManager();
+    private void initView() {
+        mViewPager = (ViewPager) getActivity().findViewById(R.id.list_vp_list);
         mUserManager = UserManager.getInstance(getActivity());
-        mAdapter = new ListAdapter(getActivity(), mData, R.layout.part_item_list);
-        mRecyclerView = (RecyclerView) getActivity().findViewById(R.id.rv);
-        mRecyclerView.setLayoutManager(mOverLayCardLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
+        mData = new ArrayList<>();
     }
 
-    public void setConfig(){
-        CardConfig.initConfig(getActivity());
-        CardConfig.MAX_SHOW_COUNT = 6;
-        final TanTanCallback callback = new TanTanCallback(mRecyclerView, mAdapter, mData);
 
-        //测试竖直滑动是否已经不会被移除屏幕
-        //callback.setHorizontalDeviation(Integer.MAX_VALUE);
 
-        final ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
-        itemTouchHelper.attachToRecyclerView(mRecyclerView);
-    }
-
-    public void back(){
-        //TODO
-        mOverLayCardLayoutManager.scrollToPosition(2);
+    public void editCard(){
+        showInputDialog();
     }
 
     public void addCard(){
@@ -126,7 +98,7 @@ public class ListFragment extends BaseFragment implements InputDialog.InputListe
         String path = event.selectedImagesPath.get(0);
         Log.d(TAG, "onReceiveImageSelectedFinishedEvent: " + path + event.position + mUsername);
         //mData.get(mAdapter)
-        mAdapter.notifyItemChanged(event.position - 1);
+        //mAdapter.notifyItemChanged(event.position - 1);
         mPresenter.uploadPhoto(getActivity(), path, mUsername, event.position);
     }
 
@@ -142,7 +114,7 @@ public class ListFragment extends BaseFragment implements InputDialog.InputListe
 
     @Override
     public int getPosition() {
-        return mAdapter.getItemCount() + 1;
+        return mAdapter.getCount() + 1;
     }
 
     /**
@@ -174,11 +146,12 @@ public class ListFragment extends BaseFragment implements InputDialog.InputListe
     public void onInputComplete(String text) {
         mDescription = text;
         mPresenter.sendCard(getActivity());
-        SwipeCardBean swipeCardBean = new SwipeCardBean(mAdapter.getItemCount()+1,"0",text,System.currentTimeMillis());
+        SwipeCardBean swipeCardBean = new SwipeCardBean(mAdapter.getCount()+1,"0",text,System.currentTimeMillis());
         List<SwipeCardBean> list = new ArrayList<>();
         list.add(swipeCardBean);
         mData.addAll(list);
         mAdapter.notifyDataSetChanged();
+        mViewPager.setCurrentItem(mAdapter.getCount() - 1);
     }
 
     @Override
@@ -187,4 +160,5 @@ public class ListFragment extends BaseFragment implements InputDialog.InputListe
             mPresenter = presenter;
         }
     }
+
 }

@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by kiddo on 17-3-29.
  */
-
+@Deprecated
 public class ListAdapter extends CommonAdapter<SwipeCardBean> {
     public static final String TAG = ListAdapter.class.getSimpleName();
 

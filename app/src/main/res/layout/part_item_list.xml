@@ -7,11 +7,11 @@
     android:layout_height="330dp"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground"
-
+    android:id="@+id/part_cv_inventory"
     app:cardBackgroundColor="#393F4E">
 
     <ImageView
-        android:id="@+id/list_iv_photo"
+        android:id="@+id/part_iv_photo"
         android:layout_width="170dp"
         android:layout_height="200dp"
         android:layout_gravity="center_horizontal"
@@ -19,7 +19,7 @@
         tools:src="@mipmap/fragment_list_add"/>
 
     <TextView
-        android:id="@+id/tvName"
+        android:id="@+id/part_tv_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -29,16 +29,16 @@
         tools:text="怪气无语 第一季"/>
 
     <Button
+        android:id="@+id/part_bt_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="20dp"
         android:background="#F05079"
-        android:onClick="editCard"
         android:text="修改"/>
 
     <TextView
-        android:id="@+id/tvPrecent"
+        android:id="@+id/part_tv_position"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right|bottom"
@@ -46,23 +46,23 @@
         android:textColor="@android:color/white"
         tools:text="1/13"/>
 
-    <ImageView
-        android:id="@+id/iv_love"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:alpha="0"
-        android:src="@mipmap/icon_love"
-        tools:alpha="255"
-        />
+    <!--<ImageView-->
+        <!--android:id="@+id/iv_love"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_margin="20dp"-->
+        <!--android:alpha="0"-->
+        <!--android:src="@mipmap/icon_love"-->
+        <!--tools:alpha="255"-->
+        <!--/>-->
 
-    <ImageView
-        android:id="@+id/iv_del"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:layout_margin="20dp"
-        android:alpha="0"
-        android:src="@mipmap/icon_del"
-        tools:alpha="255"/>
+    <!--<ImageView-->
+        <!--android:id="@+id/iv_del"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="right"-->
+        <!--android:layout_margin="20dp"-->
+        <!--android:alpha="0"-->
+        <!--android:src="@mipmap/icon_del"-->
+        <!--tools:alpha="255"/>-->
 </android.support.v7.widget.CardView>
