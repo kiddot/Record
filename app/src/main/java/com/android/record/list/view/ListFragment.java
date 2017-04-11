@@ -1,5 +1,6 @@
 package com.android.record.list.view;
 
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
@@ -42,6 +43,7 @@ public class ListFragment extends BaseFragment implements InputDialog.InputListe
     private String mUsername ;
     private String mDescription;
     private ListTaskContract.Presenter mPresenter;
+    private ViewPager mViewPager;
     private OverLayCardLayoutManager mOverLayCardLayoutManager;
     private ImageView mPhoto;
 
@@ -69,6 +71,10 @@ public class ListFragment extends BaseFragment implements InputDialog.InputListe
         mOverLayCardLayoutManager = new OverLayCardLayoutManager();
         mUserManager = UserManager.getInstance(getActivity());
         mAdapter = new ListAdapter(getActivity(), mData, R.layout.part_item_list);
+        mViewPager = (ViewPager) getActivity().findViewById(R.id.list_vp_list);
+
+
+
         mRecyclerView = (RecyclerView) getActivity().findViewById(R.id.rv);
         mRecyclerView.setLayoutManager(mOverLayCardLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
