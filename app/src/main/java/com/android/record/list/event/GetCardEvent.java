@@ -14,6 +14,8 @@ public class GetCardEvent {
 
     private List<SwipeCardBean> mCardList;
 
+    private int position;
+
     public List<SwipeCardBean> getmCardList() {
         return mCardList;
     }
@@ -22,9 +24,18 @@ public class GetCardEvent {
         this.mCardList = mCardList;
     }
 
-    public GetCardEvent(boolean isSuccess, List<SwipeCardBean> list) {
+    public GetCardEvent(boolean isSuccess, List<SwipeCardBean> list, int position) {
         this.isSuccess = isSuccess;
         this.mCardList = list;
+        this.position = position;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 
     public boolean isSuccess() {

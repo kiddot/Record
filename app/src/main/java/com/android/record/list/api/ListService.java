@@ -1,6 +1,7 @@
 package com.android.record.list.api;
 
 import com.android.record.bean.GsonCard;
+import com.android.record.bean.SwipeCardBean;
 
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
@@ -33,8 +34,8 @@ public interface ListService  {
 
     @Multipart
     @POST("list.php")
-    Call<ResponseBody> upload(@Query("format") String format,
-                              @Query("username") String username,
-                              @Query("position") int position,
-                              @Part MultipartBody.Part file);
+    Observable<GsonCard> upload(@Query("format") String format,
+                                     @Query("username") String username,
+                                     @Query("position") int position,
+                                     @Part MultipartBody.Part file);
 }

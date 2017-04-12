@@ -19,7 +19,7 @@ public class ListTaskContract {
 
     public interface Presenter extends BasePresenter{
         void sendCard(Context context);
-        void getCard(Context context);
+        void getCard(Context context, int position);
         void uploadPhoto(Context context, String path, String username, int position);
         void downloadPhoto(Context context);
     }

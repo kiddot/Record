@@ -36,6 +36,23 @@ public class CompressImagesHelper {
         return compressedList;
     }
 
+    public static String compress(String path) {
+        //压缩照片
+        //压缩失败的会进行添加null
+        String compressedPath = null;
+        try {
+            compressedPath = CompressImageUtil.compressForSelect(path);
+        } catch (Exception e) {
+            Log.e(TAG, "an error happened when a img was compressing");
+            Log.e(TAG, "压缩图片过程发生异常,异常为:");
+            e.printStackTrace();
+            clearCacheFiles(compressedPath);
+            Log.e(TAG, "清除压缩的照片:");
+            return null;//返回空集合
+        }
+        return compressedPath;
+    }
+
     public static void clearCacheFiles(List<String> filesList) {
         try {
             for (String bean : filesList) {
@@ -43,6 +60,16 @@ public class CompressImagesHelper {
                     deleteFile(bean);
                 }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void clearCacheFiles(String filesList) {
+        try {
+                if (!Check.isNull(filesList)) {
+                    deleteFile(filesList);
+                }
         } catch (Exception e) {
             e.printStackTrace();
         }

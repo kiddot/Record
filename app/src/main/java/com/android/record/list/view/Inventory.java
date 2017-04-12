@@ -7,6 +7,7 @@ import com.android.record.R;
 import com.android.record.base.componet.BaseFragment;
 import com.android.record.base.componet.event.ImageSelectedFinishedEvent;
 import com.android.record.base.componet.image.ChooseImageActivity;
+import com.android.record.base.util.CompressImagesHelper;
 import com.android.record.bean.SwipeCardBean;
 import com.android.record.common.dialog.InputDialog;
 import com.android.record.common.sp.UserManager;
@@ -14,6 +15,7 @@ import com.android.record.list.adapter.InventoryAdapter;
 import com.android.record.list.contract.ListTaskContract;
 import com.android.record.list.event.GetCardEvent;
 import com.android.record.list.event.SendCardEvent;
+import com.android.record.list.event.UploadImageEvent;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -50,7 +52,7 @@ public class Inventory extends BaseFragment implements InputDialog.InputListener
     private void initData() {
         mUsername = mUserManager.getUserName();
         showLoading("正在加载数据...");
-        mPresenter.getCard(getActivity());
+        mPresenter.getCard(getActivity(), 0);
         mViewPager.setAdapter(mAdapter);
         mViewPager.setPageTransformer(false, new ShadowTransformer(mViewPager, mAdapter));
         mViewPager.setOffscreenPageLimit(3);
@@ -74,14 +76,17 @@ public class Inventory extends BaseFragment implements InputDialog.InputListener
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReceiveGetCardEvent(GetCardEvent event){
         boolean isSuccess = event.isSuccess();
+        int position = event.getPosition();
         Log.d(TAG, "onReceiveGetCardEvent: " + isSuccess);
         dismissLoading();
+        mData.clear();
         if (isSuccess){
             mData.addAll(event.getmCardList());
             Log.d(TAG, "onReceiveGetCardEvent: " + mData.size());
             mAdapter.addCardView(mData);
             mViewPager.setAdapter(mAdapter);
             mAdapter.notifyDataSetChanged();
+            mViewPager.setCurrentItem(position);
         } else {
             showToast("获取数据失败，请检查网络~");
         }
@@ -105,7 +110,14 @@ public class Inventory extends BaseFragment implements InputDialog.InputListener
         Log.d(TAG, "onReceiveImageSelectedFinishedEvent: " + path + event.position + mUsername);
         //mData.get(mAdapter)
         //mAdapter.notifyItemChanged(event.position - 1);
+        showLoading("正在上传图片...");
         mPresenter.uploadPhoto(getActivity(), path, mUsername, event.position);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onReceiverUploadImageFinished(UploadImageEvent event){
+        Log.d(TAG, "onReceiverUploadImageFinished: ");
+        mPresenter.getCard(getActivity(), event.getPosition() - 1);
     }
 
     @Override

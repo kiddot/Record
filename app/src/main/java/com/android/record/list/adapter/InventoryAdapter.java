@@ -114,7 +114,7 @@ public class InventoryAdapter extends PagerAdapter implements CardAdapter{
         mView.clear();
         mData.clear();
         for (int i =0 ; i < list.size(); i ++){
-            mView.add(null);
+            mView.add(i,null);
         }
         mData.addAll(list);
         notifyDataSetChanged();

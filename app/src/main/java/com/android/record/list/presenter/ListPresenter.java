@@ -13,6 +13,7 @@ import com.android.record.list.event.GetCardEvent;
 import com.android.record.list.api.ListService;
 import com.android.record.list.contract.ListTaskContract;
 import com.android.record.list.event.SendCardEvent;
+import com.android.record.list.event.UploadImageEvent;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -31,9 +32,11 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -112,7 +115,7 @@ public class ListPresenter implements ListTaskContract.Presenter{
     }
 
     @Override
-    public void getCard(final Context context) {
+    public void getCard(final Context context, final int position) {
         mListService.getCard("get", mListTaskView.getUserName())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
@@ -142,39 +145,72 @@ public class ListPresenter implements ListTaskContract.Presenter{
                     public void onNext(GsonCard gsonCard) {
                         Log.d(TAG, "onNext: code" + gsonCard.getCode());
                         if (gsonCard.getCode() == 200){
-                            EventBus.getDefault().post(new GetCardEvent(true, gsonCard.getData()));
+                            EventBus.getDefault().post(new GetCardEvent(true, gsonCard.getData(), position));
                         } else {
-                            EventBus.getDefault().post(new GetCardEvent(false, gsonCard.getData()));
+                            EventBus.getDefault().post(new GetCardEvent(false, gsonCard.getData(), position));
                         }
                     }
                 });
     }
 
     @Override
-    public void uploadPhoto(Context context, String path, String username, int position) {
-        List<String> originImage = new ArrayList<>();
-        originImage.add(path);
-        //TODO 压缩图片放在线程中
-        String compressPath = CompressImagesHelper.compress(originImage).get(0);
-        File imageFile = new File(compressPath);
-        RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
-        MultipartBody.Part body = MultipartBody.Part.createFormData("file", imageFile.getName(), requestBody);
-        Call<ResponseBody> call = mListService.upload("file",username, position, body);
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                try {
-                    Log.d("Upload", "success:"+response.body().string());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.e("Upload error:", t.getMessage());
-            }
-        });
+    public void uploadPhoto(Context context, String path, final String username, final int position) {
+//        List<String> originImage = new ArrayList<>();
+//        originImage.add(path);
+//        //TODO 压缩图片放在线程中
+//        final String compressPath = CompressImagesHelper.compress(originImage).get(0);
+//        File imageFile = new File(compressPath);
+//        RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
+//        MultipartBody.Part body = MultipartBody.Part.createFormData("file", imageFile.getName(), requestBody);
+        final String[] compressPath = new String[1];
+        Observable.just(path)
+                .subscribeOn(Schedulers.computation())
+                .map(new Func1<String, String>() {
+                    @Override
+                    public String call(String s) {
+                        //压缩图片
+                        Log.d(TAG, "call: 原图路径" + s);
+                        compressPath[0] = CompressImagesHelper.compress(s);
+                        Log.d(TAG, "call: 压缩图路径" + compressPath[0]);
+                        return compressPath[0];
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .flatMap(new Func1<String, Observable<?>>() {
+                    @Override
+                    public Observable<?> call(String s) {
+                        Log.d(TAG, "call: 压缩图路径" + s);
+                        File imageFile = new File(s);
+                        RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
+                        MultipartBody.Part body = MultipartBody.Part.createFormData("file", imageFile.getName(), requestBody);
+                        return mListService.upload("file",username, position, body);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext(new Action1<Object>() {
+                    @Override
+                    public void call(Object o) {
+                        CompressImagesHelper.clearCacheFiles(compressPath[0]);//清除压缩图
+                        EventBus.getDefault().post(new UploadImageEvent(position));
+                    }
+                })
+                .subscribe();
+//        Call<ResponseBody> call = mListService.upload("file",username, position, body);
+//        call.enqueue(new Callback<ResponseBody>() {
+//            @Override
+//            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                try {
+//                    Log.d("Upload", "success:"+response.body().string());
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ResponseBody> call, Throwable t) {
+//                Log.e("Upload error:", t.getMessage());
+//            }
+//        });
     }
 
     @Override
