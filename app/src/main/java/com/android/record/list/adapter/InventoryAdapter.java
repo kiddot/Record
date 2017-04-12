@@ -2,6 +2,7 @@ package com.android.record.list.adapter;
 
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.record.R;
+import com.android.record.base.componet.image.ChooseImageActivity;
 import com.android.record.base.componet.image.CommonImageLoader;
 import com.android.record.bean.SwipeCardBean;
 
@@ -21,14 +23,16 @@ import java.util.List;
  */
 
 public class InventoryAdapter extends PagerAdapter implements CardAdapter{
+    public static final String TAG = InventoryAdapter.class.getSimpleName();
     private List<CardView> mView;
     private List<SwipeCardBean> mData;
     private float mBaseElevation;
 
-    public InventoryAdapter(List<SwipeCardBean> data) {
-        this.mData = data;
+    public InventoryAdapter() {
+        mData = new ArrayList<>();
         mView = new ArrayList<>();
     }
+
 
     @Override
     public float getBaseElevation() {
@@ -41,7 +45,8 @@ public class InventoryAdapter extends PagerAdapter implements CardAdapter{
     }
 
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
+    public Object instantiateItem(final ViewGroup container, final int position) {
+        Log.d(TAG, "instantiateItem: ");
         View view = LayoutInflater.from(container.getContext())
                 .inflate(R.layout.part_item_list, container, false);
         container.addView(view);
@@ -67,6 +72,12 @@ public class InventoryAdapter extends PagerAdapter implements CardAdapter{
         }
         tvDescription.setText(swipeCardBean.getName());
         tvPosition.setText((position + 1) + "/" + mData.size());
+        ivPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ChooseImageActivity.startActivityInSingleMode(container.getContext(), 1, 1, position + 1);
+            }
+        });
 //        btnEdit.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -91,11 +102,21 @@ public class InventoryAdapter extends PagerAdapter implements CardAdapter{
 
     @Override
     public int getCount() {
-        return mView.size();
+        return mData.size();
     }
 
     @Override
     public boolean isViewFromObject(View view, Object object) {
         return view == object;
+    }
+
+    public void addCardView(List<SwipeCardBean> list){
+        mView.clear();
+        mData.clear();
+        for (int i =0 ; i < list.size(); i ++){
+            mView.add(null);
+        }
+        mData.addAll(list);
+        notifyDataSetChanged();
     }
 }

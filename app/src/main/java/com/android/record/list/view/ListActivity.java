@@ -23,7 +23,6 @@ public class ListActivity extends BaseActivity{
 //    private InputDialog mInputDialog;
 //    private UserManager mUserManager;
 //    private String mUsername ;
-    private ListFragment mFragment = null;
     private Inventory mInventory;
     private ListPresenter mListPresenter;
 
@@ -39,11 +38,10 @@ public class ListActivity extends BaseActivity{
 
     @Override
     protected void init(Bundle savedInstanceState) {
-        mFragment = new ListFragment();
         mInventory = new Inventory();
         ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mInventory, R.id.list_fl_container);
         mListPresenter = new ListPresenter(mInventory);
-        mFragment.setPresenter(mListPresenter);
+        mInventory.setPresenter(mListPresenter);
     }
 
 //    public void back(View view){
@@ -52,4 +50,5 @@ public class ListActivity extends BaseActivity{
     public void addCard(View view){
         mInventory.addCard();
     }
+
 }

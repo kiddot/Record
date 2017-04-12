@@ -28,24 +28,24 @@ public class ListAdapter extends CommonAdapter<SwipeCardBean> {
 
     @Override
     public void convert(ViewHolder viewHolder, SwipeCardBean swipeCardBean) {
-        viewHolder.setText(R.id.tvName, swipeCardBean.getName());
-        viewHolder.setText(R.id.tvPrecent, swipeCardBean.getPosition() + " /" + mDatas.size());
-        if (swipeCardBean.getUrl() != null && !swipeCardBean.getUrl().equals("0")){
-            CommonImageLoader.displayImage(swipeCardBean.getUrl(), (ImageView) viewHolder.getView(R.id.list_iv_photo), CommonImageLoader.DOUBLE_CACHE_OPTIONS);
-        } else {
-            ImageView imageView = viewHolder.getView(R.id.list_iv_photo);
-            imageView.setBackground(mContext.getResources().getDrawable(R.mipmap.fragment_list_add));
-        }
+//        viewHolder.setText(R.id.tvName, swipeCardBean.getName());
+//        viewHolder.setText(R.id.tvPrecent, swipeCardBean.getPosition() + " /" + mDatas.size());
+//        if (swipeCardBean.getUrl() != null && !swipeCardBean.getUrl().equals("0")){
+//            CommonImageLoader.displayImage(swipeCardBean.getUrl(), (ImageView) viewHolder.getView(R.id.list_iv_photo), CommonImageLoader.DOUBLE_CACHE_OPTIONS);
+//        } else {
+//            ImageView imageView = viewHolder.getView(R.id.list_iv_photo);
+//            imageView.setBackground(mContext.getResources().getDrawable(R.mipmap.fragment_list_add));
+//        }
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        super.onBindViewHolder(holder, position);
-        holder.getView(R.id.list_iv_photo).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ChooseImageActivity.startActivityInSingleMode(mContext, 1, 1, holder.getAdapterPosition() + 1);
-            }
-        });
+//        super.onBindViewHolder(holder, position);
+//        holder.getView(R.id.list_iv_photo).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                ChooseImageActivity.startActivityInSingleMode(mContext, 1, 1, holder.getAdapterPosition() + 1);
+//            }
+//        });
     }
 }

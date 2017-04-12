@@ -6,6 +6,7 @@ import android.util.Log;
 import com.android.record.R;
 import com.android.record.base.componet.BaseFragment;
 import com.android.record.base.componet.event.ImageSelectedFinishedEvent;
+import com.android.record.base.componet.image.ChooseImageActivity;
 import com.android.record.bean.SwipeCardBean;
 import com.android.record.common.dialog.InputDialog;
 import com.android.record.common.sp.UserManager;
@@ -50,15 +51,17 @@ public class Inventory extends BaseFragment implements InputDialog.InputListener
         mUsername = mUserManager.getUserName();
         showLoading("正在加载数据...");
         mPresenter.getCard(getActivity());
+        mViewPager.setAdapter(mAdapter);
+        mViewPager.setPageTransformer(false, new ShadowTransformer(mViewPager, mAdapter));
+        mViewPager.setOffscreenPageLimit(3);
     }
 
     private void initView() {
         mViewPager = (ViewPager) getActivity().findViewById(R.id.list_vp_list);
         mUserManager = UserManager.getInstance(getActivity());
         mData = new ArrayList<>();
+        mAdapter = new InventoryAdapter();
     }
-
-
 
     public void editCard(){
         showInputDialog();
@@ -75,6 +78,9 @@ public class Inventory extends BaseFragment implements InputDialog.InputListener
         dismissLoading();
         if (isSuccess){
             mData.addAll(event.getmCardList());
+            Log.d(TAG, "onReceiveGetCardEvent: " + mData.size());
+            mAdapter.addCardView(mData);
+            mViewPager.setAdapter(mAdapter);
             mAdapter.notifyDataSetChanged();
         } else {
             showToast("获取数据失败，请检查网络~");

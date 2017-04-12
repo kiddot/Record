@@ -154,6 +154,7 @@ public class ListPresenter implements ListTaskContract.Presenter{
     public void uploadPhoto(Context context, String path, String username, int position) {
         List<String> originImage = new ArrayList<>();
         originImage.add(path);
+        //TODO 压缩图片放在线程中
         String compressPath = CompressImagesHelper.compress(originImage).get(0);
         File imageFile = new File(compressPath);
         RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
