@@ -8,6 +8,8 @@ import com.android.record.diary.contract.DiaryTaskContract;
  */
 
 public class DiaryFragment extends BaseFragment implements DiaryTaskContract.View{
+
+
     @Override
     protected int getLayoutId() {
         return 0;
