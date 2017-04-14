@@ -59,6 +59,7 @@ public class LoginActivity extends BaseActivity{
 //            Log.d(TAG, "用户正在尝试登录  ----ing ");
 //        }
         MainActivity.startActivity(this);
+        finish();
     }
 
     public void signUp(View view){

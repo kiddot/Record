@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.android.record.R;
 import com.android.record.base.componet.BaseActivity;
+import com.android.record.diary.view.DiaryActivity;
 import com.android.record.list.view.ListActivity;
 import com.github.clans.fab.FloatingActionButton;
 
@@ -62,7 +63,7 @@ public class MainActivity extends BaseActivity implements FloatingActionButton.O
                 ListActivity.startActivity(this);
                 break;
             case R.id.menu_item_second:
-                showToast("two");
+                DiaryActivity.startActivity(this);
                 break;
             case R.id.menu_item_third:
                 break;
