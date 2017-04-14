@@ -1,5 +1,6 @@
 package com.android.record.diary.view;
 
+import com.android.record.R;
 import com.android.record.base.componet.BaseFragment;
 
 /**
@@ -9,7 +10,7 @@ import com.android.record.base.componet.BaseFragment;
 public class EntryFragment extends BaseFragment{
     @Override
     protected int getLayoutId() {
-        return 0;
+        return R.layout.fragment_entry;
     }
 
     @Override
