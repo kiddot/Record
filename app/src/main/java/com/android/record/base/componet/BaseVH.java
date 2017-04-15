@@ -11,10 +11,13 @@ import android.view.ViewGroup;
  * Created by kiddo on 17-4-15.
  */
 
-public class BaseVH<Data> extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class BaseVH<Data> extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
     private SparseArray<View> mViews;
     private View mConvertView;
     private Context mContext;
+    protected int mPosition;
+    private BaseRvAdapter.OnItemClickListener mOnItemClickListener;
+    private BaseRvAdapter.OnItemLongClickListener mOnItemLongClickListener;
 
     public BaseVH(Context context, View itemView, ViewGroup parent) {
         super(itemView);
@@ -38,8 +41,42 @@ public class BaseVH<Data> extends RecyclerView.ViewHolder implements View.OnClic
         return (T) view;
     }
 
+    public BaseRvAdapter.OnItemClickListener getOnItemClickListener() {
+        return mOnItemClickListener;
+    }
+
+    public void setOnItemClickListener(BaseRvAdapter.OnItemClickListener onItemClickListener) {
+        mOnItemClickListener = onItemClickListener;
+    }
+
+    public BaseRvAdapter.OnItemLongClickListener getOnItemLongClickListener() {
+        return mOnItemLongClickListener;
+    }
+
+    public void setOnItemLongClickListener(BaseRvAdapter.OnItemLongClickListener onItemLongClickListener) {
+        mOnItemLongClickListener = onItemLongClickListener;
+    }
+
+    public final void setPosition(int position) {
+        mPosition = position;
+    }
+
+    public int getRealPosition(){
+        return mPosition;
+    }
+
     @Override
     public void onClick(View v) {
+        if (mOnItemClickListener != null) {
+            mOnItemClickListener.onItemClick(v, mPosition);
+        }
+    }
 
+    @Override
+    public boolean onLongClick(View v) {
+        if(mOnItemLongClickListener!=null){
+            mOnItemLongClickListener.onItemLongClick(v,mPosition);
+        }
+        return true;
     }
 }
