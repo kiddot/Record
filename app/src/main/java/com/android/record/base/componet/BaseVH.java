@@ -11,7 +11,7 @@ import android.view.ViewGroup;
  * Created by kiddo on 17-4-15.
  */
 
-public class BaseVH<Data> extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+public class BaseVH extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
     private SparseArray<View> mViews;
     private View mConvertView;
     private Context mContext;
@@ -19,19 +19,31 @@ public class BaseVH<Data> extends RecyclerView.ViewHolder implements View.OnClic
     private BaseRvAdapter.OnItemClickListener mOnItemClickListener;
     private BaseRvAdapter.OnItemLongClickListener mOnItemLongClickListener;
 
-    public BaseVH(Context context, View itemView, ViewGroup parent) {
-        super(itemView);
-        mContext = context;
-        mConvertView = itemView;
+    /**
+     * 构造ViewHolder
+     * @param parent 父类容器
+     * @param resId 布局资源文件id
+     */
+    public BaseVH(int resId, ViewGroup parent) {
+        super(LayoutInflater.from(parent.getContext()).inflate(resId, parent, false));
         mViews = new SparseArray<>();
     }
 
-    public static BaseVH get(Context context, ViewGroup parent, int layoutId){
-        View itemView = LayoutInflater.from(context).inflate(layoutId, parent, false);
-        BaseVH holder = new BaseVH(context, itemView, parent);
-        return holder;
+    /**
+     * 构建ViewHolder
+     * @param view 布局View
+     */
+    public BaseVH(View view) {
+        super(view);
+        mViews = new SparseArray<>();
     }
 
+    /**
+     * 获取布局中的View
+     * @param viewId view的Id
+     * @param <T> View的类型
+     * @return view
+     */
     public <T extends View> T getView(int viewId){
         View view = mViews.get(viewId);
         if (view == null){
@@ -39,6 +51,14 @@ public class BaseVH<Data> extends RecyclerView.ViewHolder implements View.OnClic
             mViews.put(viewId, view);
         }
         return (T) view;
+    }
+
+    /**
+     * 获取Context实例
+     * @return context
+     */
+    protected Context getContext() {
+        return itemView.getContext();
     }
 
     public BaseRvAdapter.OnItemClickListener getOnItemClickListener() {
