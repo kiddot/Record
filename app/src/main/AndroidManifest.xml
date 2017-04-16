@@ -26,6 +26,7 @@
         <activity android:name=".list.view.ListActivity"/>
         <activity android:name=".base.componet.image.ChooseImageActivity"/>
         <activity android:name=".diary.view.DiaryActivity"/>
+        <activity android:name=".diary.view.EntryActivity"/>
 
     </application>
 

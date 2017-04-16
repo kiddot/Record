@@ -2,6 +2,7 @@ package com.android.record.diary.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,13 +21,14 @@ import java.util.List;
  * Created by kiddo on 17-4-14.
  */
 
-public class EntryAdapter extends BaseRvAdapter {
+public class EntryAdapter extends BaseRvAdapter<EntryBean, EntryAdapter.EntryHolder> {
     public static final String TAG = EntryAdapter.class.getSimpleName();
     public static final int NORMAL_ENTRY = 0;
     private List<EntryBean> mData;
 
     public EntryAdapter(Context context, List list) {
         super(context, list);
+        Log.d(TAG, "EntryAdapter: ");
         mData = list;
     }
 
@@ -37,12 +39,13 @@ public class EntryAdapter extends BaseRvAdapter {
 
     @Override
     public BaseVH createCustomViewHolder(ViewGroup parent, int viewType) {
+        Log.d(TAG, "createCustomViewHolder: ");
         return new EntryHolder(R.layout.item_topic_diary, parent);
     }
 
     @Override
     public void bindCustomViewHolder(BaseVH holder, int position) {
-        EntryHolder entryHolder = (EntryHolder) holder;
+        Log.d(TAG, "bindCustomViewHolder: " + mData.get(position).getName());
         ((EntryHolder) holder).entryType.setText(mData.get(position).getName());
     }
 
@@ -51,6 +54,7 @@ public class EntryAdapter extends BaseRvAdapter {
 
         public EntryHolder(int resId, ViewGroup parent) {
             super(resId, parent);
+            entryType = (TextView) itemView.findViewById(R.id.TV_topic_title);
         }
     }
 

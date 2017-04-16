@@ -1,12 +1,18 @@
 package com.android.record.diary.view;
 
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.android.record.R;
 import com.android.record.base.componet.BaseFragment;
 import com.android.record.diary.adapter.EntryAdapter;
 import com.android.record.diary.bean.EntryBean;
+import com.android.record.list.event.SendCardEvent;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,19 +31,28 @@ public class EntryFragment extends BaseFragment{
 
     @Override
     protected void init() {
-        initView();
         initEntryData();
-        EntryAdapter adapter = new EntryAdapter(getActivity(), mEntryList);
-        mRecyclerView.setAdapter(adapter);
+        initView();
     }
 
     private void initView() {
         mRecyclerView = (RecyclerView) getActivity().findViewById(R.id.RecyclerView_topic);
+        EntryAdapter adapter = new EntryAdapter(getActivity(), mEntryList);
+        LinearLayoutManager manager = new LinearLayoutManager(getActivity());
+        manager.setOrientation(LinearLayoutManager.VERTICAL);
+        mRecyclerView.setAdapter(adapter);
+        mRecyclerView.setLayoutManager(manager);
     }
 
     private void initEntryData(){
+        mEntryList = new ArrayList<>();
         EntryBean entryBean = new EntryBean();
         entryBean.setName("日记");
         mEntryList.add(entryBean);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onReceiveSendCardEvent(SendCardEvent event){
+
     }
 }

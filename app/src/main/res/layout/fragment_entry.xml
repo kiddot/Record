@@ -83,7 +83,7 @@
         android:background="@android:color/white"
         android:paddingBottom="10dp"
         android:paddingLeft="15dp"
-        android:paddingTop="10dp" />
+         />
 
     <View
         android:id="@+id/profile_shadow"

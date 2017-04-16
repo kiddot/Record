@@ -29,6 +29,6 @@ public class EntryActivity extends BaseActivity {
     @Override
     protected void init(Bundle savedInstanceState) {
         mFragment = new EntryFragment();
-        ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragment, R.id.diary_fl_container);
+        ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragment, R.id.entry_fl_container);
     }
 }
