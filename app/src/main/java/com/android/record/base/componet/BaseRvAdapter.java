@@ -8,15 +8,18 @@ import android.view.ViewGroup;
 
 import com.android.record.base.componet.moudule.BaseHFAdapter;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 封装了点击和长按事件，和基本数据操作
  * Created by kiddo on 17-4-15.
  */
 
-public abstract class BaseRvAdapter<M, VH extends BaseVH> extends BaseHFAdapter{
+public abstract class BaseRvAdapter<M, VH extends BaseVH> extends BaseHFAdapter implements View.OnClickListener, View.OnLongClickListener{
     protected List<M> mDataList;
+    private WeakReference<RecyclerView> mRecyclerView;
     private OnItemClickListener mOnItemClickListener;
     private OnItemLongClickListener mOnItemLongClickListener;
 
@@ -29,6 +32,13 @@ public abstract class BaseRvAdapter<M, VH extends BaseVH> extends BaseHFAdapter{
         super(context);
         mDataList = new ArrayList<>();
         mDataList.addAll(list);
+    }
+
+    @Override
+    public BaseVH onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (mRecyclerView == null)
+            mRecyclerView = new WeakReference<RecyclerView>((RecyclerView) parent);
+        return super.onCreateViewHolder(parent, viewType);
     }
 
     /**
@@ -200,14 +210,31 @@ public abstract class BaseRvAdapter<M, VH extends BaseVH> extends BaseHFAdapter{
         }
     }
 
+    @Override
+    public void onClick(View v) {
+        RecyclerView recyclerView = mRecyclerView.get();
+        if (recyclerView != null) {
+            int position = recyclerView.getChildAdapterPosition(v);
+            mOnItemClickListener.onItemClick(v, position);
+        }
+    }
 
+    @Override
+    public boolean onLongClick(View v) {
+        RecyclerView recyclerView = mRecyclerView.get();
+        if (recyclerView != null) {
+            int position = recyclerView.getChildAdapterPosition(v);
+            return mOnItemLongClickListener.onItemLongClick(v, position);
+        }
+        return true;
+    }
 
     public interface OnItemClickListener {
         void onItemClick(View itemView, int position);
     }
 
     public interface OnItemLongClickListener {
-        void onItemLongClick(View itemView, int position);
+        boolean onItemLongClick(View itemView, int position);
     }
 
 }

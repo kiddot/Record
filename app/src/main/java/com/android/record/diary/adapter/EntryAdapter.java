@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -47,14 +48,17 @@ public class EntryAdapter extends BaseRvAdapter<EntryBean, EntryAdapter.EntryHol
     public void bindCustomViewHolder(BaseVH holder, int position) {
         Log.d(TAG, "bindCustomViewHolder: " + mData.get(position).getName());
         ((EntryHolder) holder).entryType.setText(mData.get(position).getName());
+        ((EntryHolder) holder).icon.setImageResource(R.mipmap.ic_topic_diary);
     }
 
     public class EntryHolder extends BaseVH{
         TextView entryType;
+        ImageView icon;
 
         public EntryHolder(int resId, ViewGroup parent) {
             super(resId, parent);
             entryType = (TextView) itemView.findViewById(R.id.TV_topic_title);
+            icon = (ImageView) itemView.findViewById(R.id.IV_topic_icon);
         }
     }
 
