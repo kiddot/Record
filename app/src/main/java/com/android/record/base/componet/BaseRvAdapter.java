@@ -2,6 +2,7 @@ package com.android.record.base.componet;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,15 @@ public abstract class BaseRvAdapter<M, VH extends BaseVH> extends BaseHFAdapter 
         if (mRecyclerView == null)
             mRecyclerView = new WeakReference<RecyclerView>((RecyclerView) parent);
         return super.onCreateViewHolder(parent, viewType);
+    }
+
+    @Override
+    public void onBindViewHolder(BaseVH holder, int position) {
+        super.onBindViewHolder(holder, position);
+        if (mOnItemClickListener != null)
+            holder.itemView.setOnClickListener(this);
+        if (mOnItemLongClickListener != null)
+            holder.itemView.setOnLongClickListener(this);
     }
 
     /**
@@ -212,8 +222,10 @@ public abstract class BaseRvAdapter<M, VH extends BaseVH> extends BaseHFAdapter 
 
     @Override
     public void onClick(View v) {
+        Log.d(TAG, "onClick: in baseAdapter");
         RecyclerView recyclerView = mRecyclerView.get();
         if (recyclerView != null) {
+            Log.d(TAG, "onClick: recyclerView不为空");
             int position = recyclerView.getChildAdapterPosition(v);
             mOnItemClickListener.onItemClick(v, position);
         }
@@ -227,6 +239,14 @@ public abstract class BaseRvAdapter<M, VH extends BaseVH> extends BaseHFAdapter 
             return mOnItemLongClickListener.onItemLongClick(v, position);
         }
         return true;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mOnItemClickListener = listener;
+    }
+
+    public void setOnLongClickListener(OnItemLongClickListener listener) {
+        mOnItemLongClickListener = listener;
     }
 
     public interface OnItemClickListener {

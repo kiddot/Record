@@ -2,9 +2,12 @@ package com.android.record.diary.view;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.View;
 
 import com.android.record.R;
 import com.android.record.base.componet.BaseFragment;
+import com.android.record.base.componet.BaseRvAdapter;
 import com.android.record.diary.adapter.EntryAdapter;
 import com.android.record.diary.bean.EntryBean;
 import com.android.record.list.event.SendCardEvent;
@@ -19,7 +22,7 @@ import java.util.List;
  * Created by kiddo on 17-4-14.
  */
 
-public class EntryFragment extends BaseFragment{
+public class EntryFragment extends BaseFragment implements BaseRvAdapter.OnItemClickListener{
     public static final String TAG = EntryFragment.class.getSimpleName();
     private List<EntryBean> mEntryList;
     private RecyclerView mRecyclerView;
@@ -40,6 +43,7 @@ public class EntryFragment extends BaseFragment{
         EntryAdapter adapter = new EntryAdapter(getActivity(), mEntryList);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         manager.setOrientation(LinearLayoutManager.VERTICAL);
+        adapter.setOnItemClickListener(this);
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.setLayoutManager(manager);
     }
@@ -54,5 +58,14 @@ public class EntryFragment extends BaseFragment{
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReceiveSendCardEvent(SendCardEvent event){
 
+    }
+
+    @Override
+    public void onItemClick(View itemView, int position) {
+        Log.d(TAG, "onItemClick: position:" + position);
+        if (position == 0){
+            //日记模块
+            EntryActivity.startActivity(getActivity());
+        }
     }
 }
