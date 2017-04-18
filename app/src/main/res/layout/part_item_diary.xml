@@ -52,7 +52,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/TV_entries_item_date"
+                        android:id="@+id/part_diary_tv_date"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_gravity="center"
@@ -62,7 +62,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/TV_entries_item_day"
+                        android:id="@+id/part_diary_tv_week"
                         android:layout_width="40dp"
                         android:layout_height="20dp"
                         android:layout_gravity="center"
@@ -126,13 +126,13 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/TV_entries_item_time"
+                        android:id="@+id/part_diary_tv_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="14dp" />
 
                     <TextView
-                        android:id="@+id/TV_entries_item_title"
+                        android:id="@+id/part_diary_tv_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
@@ -140,7 +140,7 @@
                         android:textSize="16dp" />
 
                     <TextView
-                        android:id="@+id/TV_entries_item_summary"
+                        android:id="@+id/part_diary_tv_content"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
