@@ -65,7 +65,7 @@ public class EntryFragment extends BaseFragment implements BaseRvAdapter.OnItemC
         Log.d(TAG, "onItemClick: position:" + position);
         if (position == 0){
             //日记模块
-            EntryActivity.startActivity(getActivity());
+            DiaryActivity.startActivity(getActivity());
         }
     }
 }
