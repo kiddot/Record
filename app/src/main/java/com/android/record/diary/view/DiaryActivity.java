@@ -16,7 +16,7 @@ import com.android.record.diary.presenter.DiaryPresenter;
 public class DiaryActivity extends BaseActivity{
     public static final String TAG = DiaryActivity.class.getSimpleName();
     private DiaryFragment mFragment;
-    private DiaryPresenter mDiaryPrsenter;
+    private DiaryPresenter mDiaryPresenter;
 
     public static void startActivity(Context context){
         Intent intent = new Intent(context, DiaryActivity.class);
@@ -32,7 +32,7 @@ public class DiaryActivity extends BaseActivity{
     protected void init(Bundle savedInstanceState) {
         mFragment = new DiaryFragment();
         ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragment, R.id.diary_fl_container);
-        mDiaryPrsenter = new DiaryPresenter(mFragment);
-        mFragment.setPresenter(mDiaryPrsenter);
+        mDiaryPresenter = new DiaryPresenter(mFragment);
+        mFragment.setPresenter(mDiaryPresenter);
     }
 }
