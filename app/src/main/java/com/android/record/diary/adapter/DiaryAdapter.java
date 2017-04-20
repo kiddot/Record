@@ -37,7 +37,11 @@ public class DiaryAdapter extends BaseRvAdapter {
 
     @Override
     public void bindCustomViewHolder(BaseVH holder, int position) {
-//        ((DiaryHolder) holder).title.setText(mDiaryList.get(position));
+        ((DiaryHolder) holder).title.setText(mDiaryList.get(position).getTitle());
+        ((DiaryHolder) holder).date.setText(mDiaryList.get(position).getDate());
+        ((DiaryHolder) holder).week.setText(mDiaryList.get(position).getWeek());
+        ((DiaryHolder) holder).time.setText((int) mDiaryList.get(position).getTime());
+        ((DiaryHolder) holder).content.setText(mDiaryList.get(position).getContent());
     }
 
     public class DiaryHolder extends BaseVH{

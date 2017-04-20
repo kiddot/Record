@@ -73,7 +73,7 @@ public class DiaryFragment extends BaseFragment implements DiaryTaskContract.Vie
 
     @Override
     public String getUserName() {
-        return null;
+        return mUserName;
     }
 
     @Override
@@ -88,6 +88,8 @@ public class DiaryFragment extends BaseFragment implements DiaryTaskContract.Vie
 
     @Override
     public void setPresenter(DiaryTaskContract.Presenter presenter) {
-
+        if (presenter != null){
+            mPresenter = presenter;
+        }
     }
 }
