@@ -1,14 +1,28 @@
 package com.android.record.diary.presenter;
 
+import android.content.Context;
 import android.util.Log;
 
+import com.android.record.base.util.Check;
+import com.android.record.bean.Diary;
+import com.android.record.bean.GsonDiary;
 import com.android.record.common.AppConstant;
+import com.android.record.common.dao.CommonDao;
 import com.android.record.diary.api.DiaryService;
 import com.android.record.diary.contract.DiaryTaskContract;
+import com.android.record.diary.event.ReceiveDiaryEvent;
+
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.List;
 
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by kiddo on 17-4-13.
@@ -38,8 +52,39 @@ public class DiaryPresenter implements DiaryTaskContract.Presenter{
     }
 
     @Override
-    public void getDiary() {
+    public void getDiary(final Context context) {
+        mDiaryService.getDiary("get",mDiaryTaskView.getUserName())
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .doOnNext(new Action1<GsonDiary>() {
+                    @Override
+                    public void call(GsonDiary gsonDiary) {
+                        List<Diary> diaryList = gsonDiary.getData();
+                        if (!Check.isEmpty(diaryList)){
+                            CommonDao.insert(context, diaryList);
+                        }
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<GsonDiary>() {
+                    @Override
+                    public void onCompleted() {
 
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(GsonDiary gsonDiary) {
+                        Log.d(TAG, "onNext: " + gsonDiary.getCode());
+                        if (gsonDiary.getCode() == 200){
+                            EventBus.getDefault().post(new ReceiveDiaryEvent(true, gsonDiary.getData()));
+                        }
+                    }
+                });
     }
 
     @Override

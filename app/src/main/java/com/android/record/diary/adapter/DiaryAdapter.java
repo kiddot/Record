@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.android.record.R;
 import com.android.record.base.componet.BaseRvAdapter;
 import com.android.record.base.componet.BaseVH;
+import com.android.record.bean.Diary;
 
 import java.util.List;
 
@@ -16,9 +17,12 @@ import java.util.List;
  */
 
 public class DiaryAdapter extends BaseRvAdapter {
+    public static final String TAG = DiaryAdapter.class.getSimpleName();
+    private List<Diary> mDiaryList;
 
     public DiaryAdapter(Context context, List list) {
         super(context, list);
+        mDiaryList = list;
     }
 
     @Override
@@ -28,12 +32,12 @@ public class DiaryAdapter extends BaseRvAdapter {
 
     @Override
     public BaseVH createCustomViewHolder(ViewGroup parent, int viewType) {
-        return null;
+        return new DiaryHolder(R.layout.part_item_diary, parent);
     }
 
     @Override
     public void bindCustomViewHolder(BaseVH holder, int position) {
-
+//        ((DiaryHolder) holder).title.setText(mDiaryList.get(position));
     }
 
     public class DiaryHolder extends BaseVH{

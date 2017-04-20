@@ -1,6 +1,7 @@
 package com.android.record.diary.api;
 
 import com.android.record.bean.Diary;
+import com.android.record.bean.GsonDiary;
 
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -13,7 +14,7 @@ import rx.Observable;
 public interface DiaryService {
 
     @GET("diary.php")
-    Observable<Diary> getDiary(@Query("format") String format, @Query("username") String username);
+    Observable<GsonDiary> getDiary(@Query("format") String format, @Query("username") String username);
 
     @GET("diary.php")
     Observable<Diary> saveDiary(@Query("format") String format,
