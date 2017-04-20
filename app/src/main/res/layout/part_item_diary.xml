@@ -144,6 +144,8 @@
                         android:layout_width="210dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="1dp"
+                        android:maxEms="10"
+                        android:gravity="center_horizontal"
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:textSize="12dp" />
