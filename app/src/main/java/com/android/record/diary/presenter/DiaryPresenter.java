@@ -53,6 +53,7 @@ public class DiaryPresenter implements DiaryTaskContract.Presenter{
 
     @Override
     public void getDiary(final Context context) {
+        Log.d(TAG, "getDiary: " + mDiaryTaskView.getUserName());
         mDiaryService.getDiary("get",mDiaryTaskView.getUserName())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())

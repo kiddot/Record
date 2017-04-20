@@ -1,5 +1,7 @@
 package com.android.record.diary.view;
 
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.android.record.R;
@@ -28,6 +30,7 @@ public class DiaryFragment extends BaseFragment implements DiaryTaskContract.Vie
     private String mUserName;
     private UserManager mUserManager;
     private DiaryTaskContract.Presenter mPresenter;
+    private RecyclerView mRecyclerView;
     private DiaryAdapter mAdapter;
     private List<Diary> mDiaryList;
 
@@ -49,16 +52,24 @@ public class DiaryFragment extends BaseFragment implements DiaryTaskContract.Vie
     }
 
     private void initView(){
+        mRecyclerView = (RecyclerView) getActivity().findViewById(R.id.diary_rv_diary);
         mUserManager = UserManager.getInstance(getActivity());
         mDiaryList = new ArrayList<>();
         mAdapter = new DiaryAdapter(getActivity(),mDiaryList);
+        LinearLayoutManager manager = new LinearLayoutManager(getActivity());
+        manager.setOrientation(LinearLayoutManager.VERTICAL);
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setLayoutManager(manager);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReceiveDiaryEvent(ReceiveDiaryEvent event){
         boolean success = event.isSuccess();
         if (success){
+            dismissLoading();
             mDiaryList.addAll(event.getmData());
+            mAdapter = new DiaryAdapter(getActivity(),mDiaryList);
+            mRecyclerView.setAdapter(mAdapter);
             Log.d(TAG, "onReceiveDiaryEvent: 获取日记成功");
             mAdapter.notifyDataSetChanged();
         } else {
