@@ -4,6 +4,7 @@ import android.databinding.ViewDataBinding;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
@@ -12,6 +13,7 @@ import android.view.WindowManager;
 
 import com.android.record.base.thread.ThreadPoolConst;
 import com.android.record.base.thread.ThreadPoolManager;
+import com.android.record.base.util.DialogFragmentHelper;
 import com.android.record.base.util.HandleUtil;
 import com.android.record.base.util.Toastor;
 
@@ -33,6 +35,7 @@ public abstract class BaseActivity extends AppCompatActivity{
     protected static Executor sHTTPExecutor = ThreadPoolManager.getInstance().getThreadPool(ThreadPoolConst.THREAD_TYPE_SIMPLE_HTTP);
     protected static Executor sWORKExecutor = ThreadPoolManager.getInstance().getThreadPool(ThreadPoolConst.THREAD_TYPE_WORK);
     private Toastor mToast;
+    private DialogFragment mLoadingDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,6 +81,24 @@ public abstract class BaseActivity extends AppCompatActivity{
                 mToast.showToast(content);
             }
         });
+    }
+
+    protected void showLoading(String msg) {
+        boolean isDestroy;
+        if (Build.VERSION.SDK_INT > 16) {
+            isDestroy = isDestroyed();
+        } else {
+            isDestroy = isFinishing();
+        }
+        if (mLoadingDialog == null && !isDestroy)
+            mLoadingDialog = DialogFragmentHelper.showProgress(getSupportFragmentManager(), msg, true);
+    }
+
+    protected void dismissLoading() {
+        if (mLoadingDialog != null) {
+            mLoadingDialog.dismiss();
+            mLoadingDialog = null;
+        }
     }
 
 }

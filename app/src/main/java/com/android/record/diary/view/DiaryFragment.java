@@ -15,6 +15,7 @@ import com.android.record.common.sp.UserManager;
 import com.android.record.diary.adapter.DiaryAdapter;
 import com.android.record.diary.contract.DiaryTaskContract;
 import com.android.record.diary.event.ReceiveDiaryEvent;
+import com.android.record.diary.event.SaveDiaryEvent;
 import com.android.record.list.contract.ListTaskContract;
 import com.android.record.list.event.SendCardEvent;
 import com.github.clans.fab.FloatingActionButton;
@@ -95,6 +96,17 @@ public class DiaryFragment extends BaseFragment implements DiaryTaskContract.Vie
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSaveDiaryEvent(SaveDiaryEvent event){
+        Log.d(TAG, "onSaveDiaryEvent: " + event.isSuccess());
+        boolean success = event.isSuccess();
+        if (success){
+            dismissLoading();
+            mDiaryList.add(0, event.getDiary());
+            mAdapter.notifyDataSetChanged();
+            mRecyclerView.scrollToPosition(0);
+        }
+    }
 
     private void closeRefresh(){
         if (mWaveSwipeRefreshLayout.isRefreshing()){

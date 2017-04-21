@@ -17,7 +17,7 @@ public interface DiaryService {
     Observable<GsonDiary> getDiary(@Query("format") String format, @Query("username") String username);
 
     @GET("diary.php")
-    Observable<Diary> saveDiary(@Query("format") String format,
+    Observable<GsonDiary> saveDiary(@Query("format") String format,
                                 @Query("username") String username,
                                 @Query("title") String title,
                                 @Query("date") String date,

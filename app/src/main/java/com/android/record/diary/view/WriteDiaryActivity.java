@@ -14,11 +14,16 @@ import com.android.record.base.util.Check;
 import com.android.record.base.util.QueryWeek;
 import com.android.record.common.sp.UserManager;
 import com.android.record.diary.contract.DiaryTaskContract;
+import com.android.record.diary.event.SaveDiaryEvent;
 import com.android.record.diary.presenter.DiaryPresenter;
 import com.github.clans.fab.FloatingActionButton;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -53,15 +58,21 @@ public class WriteDiaryActivity extends BaseActivity implements
 
     @Override
     protected void getLayoutBinding() {
-        setContentView(R.layout.fragment_diary_write);
+        setContentView(R.layout.activity_diary_write);
     }
 
     @Override
     protected void init(Bundle savedInstanceState) {
         initView();
+        initListener();
+    }
+
+    private void initListener() {
+        mFloatingActionButton.setOnClickListener(this);
     }
 
     private void initView() {
+        EventBus.getDefault().register(this);
         mUserManager = UserManager.getInstance(this);
         setPresenter(new DiaryPresenter(this));
         mFloatingActionButton = (FloatingActionButton) findViewById(R.id.write_fab_finish);
@@ -104,13 +115,15 @@ public class WriteDiaryActivity extends BaseActivity implements
         String date =( monthOfYear + 1 ) + "." + dayOfMonth;
         mTvDate.setText(date);
         mWeek = QueryWeek.getWeek(new Date(year,monthOfYear+1,dayOfMonth));
+        mDate = date;
     }
 
     @Override
     public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute, int second) {
         Log.d(TAG, "onDateSet: " + hourOfDay + minute + second);
-        String date =hourOfDay  + ":" + minute;
-        mTvDate.setText(date);
+        String time =hourOfDay  + ":" + minute;
+        mTvTime.setText(time);
+        mTime = time;
     }
 
     @Override
@@ -122,7 +135,21 @@ public class WriteDiaryActivity extends BaseActivity implements
         if (Check.isEmpty(getContent())){
             showToast("内容不能为空");
         } else {
+            Log.d(TAG, "onClick: 开始保存日记");
+            showLoading("正在上传日记");
             mPresenter.saveDiary(this);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSaveDiaryEvent(SaveDiaryEvent event){
+        Log.d(TAG, "onReceiveDiaryEvent: " + event.isSuccess());
+        boolean success = event.isSuccess();
+        if (success){
+            dismissLoading();
+            finish();
+        } else {
+            showToast("上传日记失败，请检查网络～重试");
         }
     }
 
@@ -165,6 +192,14 @@ public class WriteDiaryActivity extends BaseActivity implements
     public void setPresenter(DiaryTaskContract.Presenter presenter) {
         if (presenter != null){
             mPresenter = presenter;
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().unregister(this);
         }
     }
 }
