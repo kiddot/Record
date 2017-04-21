@@ -52,17 +52,17 @@
 
                     <TextView
                         android:id="@+id/part_diary_tv_date"
-                        android:layout_width="40dp"
+                        android:layout_width="80dp"
                         android:layout_height="40dp"
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:textColor="@color/theme_dark_color_taki"
-                        android:textSize="30dp"
+                        android:textSize="26dp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/part_diary_tv_week"
-                        android:layout_width="wrap_content"
+                        android:layout_width="80dp"
                         android:layout_height="20dp"
                         android:layout_gravity="center"
                         android:gravity="center"
@@ -132,7 +132,7 @@
 
                     <TextView
                         android:id="@+id/part_diary_tv_title"
-                        android:layout_width="210dp"
+                        android:layout_width="180dp"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:gravity="center_horizontal"
@@ -141,14 +141,14 @@
 
                     <TextView
                         android:id="@+id/part_diary_tv_content"
-                        android:layout_width="210dp"
+                        android:layout_width="180dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="1dp"
-                        android:maxEms="10"
+                        android:maxEms="8"
                         android:gravity="center_horizontal"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:textSize="12dp" />
+                        android:textSize="12sp" />
                 </LinearLayout>
 
             </RelativeLayout>
