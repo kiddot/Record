@@ -15,11 +15,14 @@ public class DiaryTaskContract {
         String getContent();
         String getUserName();
         String getDiaryTime();
-        String getTitle();
+        String getDiaryTitle();
+        String getDiaryDate();
+        String getEmotion();
+        String getWeek();
     }
 
     public interface Presenter extends BasePresenter{
         void getDiary(Context context);
-        void sendDiary();
+        void saveDiary(Context context);
     }
 }

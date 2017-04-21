@@ -4,6 +4,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.DatePicker;
+import android.widget.TimePicker;
 
 import com.android.record.R;
 import com.android.record.base.componet.BaseFragment;
@@ -16,11 +18,15 @@ import com.android.record.diary.event.ReceiveDiaryEvent;
 import com.android.record.list.contract.ListTaskContract;
 import com.android.record.list.event.SendCardEvent;
 import com.github.clans.fab.FloatingActionButton;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
+import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout;
@@ -29,7 +35,8 @@ import jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout;
  * Created by kiddo on 17-4-13.
  */
 
-public class DiaryFragment extends BaseFragment implements DiaryTaskContract.View,WaveSwipeRefreshLayout.OnRefreshListener,FloatingActionButton.OnClickListener{
+public class DiaryFragment extends BaseFragment implements DiaryTaskContract.View,
+        WaveSwipeRefreshLayout.OnRefreshListener,FloatingActionButton.OnClickListener{
     public static final String TAG = DiaryFragment.class.getSimpleName();
     private String mUserName;
     private UserManager mUserManager;
@@ -77,6 +84,7 @@ public class DiaryFragment extends BaseFragment implements DiaryTaskContract.Vie
         boolean success = event.isSuccess();
         if (success){
             dismissLoading();
+            closeRefresh();
             mDiaryList.addAll(event.getmData());
             mAdapter = new DiaryAdapter(getActivity(),mDiaryList);
             mRecyclerView.setAdapter(mAdapter);
@@ -84,6 +92,13 @@ public class DiaryFragment extends BaseFragment implements DiaryTaskContract.Vie
             mAdapter.notifyDataSetChanged();
         } else {
             showToast("获取数据失败，请检查网络～");
+        }
+    }
+
+
+    private void closeRefresh(){
+        if (mWaveSwipeRefreshLayout.isRefreshing()){
+            mWaveSwipeRefreshLayout.setRefreshing(false);
         }
     }
 
@@ -103,7 +118,22 @@ public class DiaryFragment extends BaseFragment implements DiaryTaskContract.Vie
     }
 
     @Override
-    public String getTitle() {
+    public String getDiaryTitle() {
+        return null;
+    }
+
+    @Override
+    public String getDiaryDate() {
+        return null;
+    }
+
+    @Override
+    public String getEmotion() {
+        return null;
+    }
+
+    @Override
+    public String getWeek() {
         return null;
     }
 
@@ -116,16 +146,16 @@ public class DiaryFragment extends BaseFragment implements DiaryTaskContract.Vie
 
     @Override
     public void onRefresh() {
-        //TODO 执行刷新数据操作
-        mWaveSwipeRefreshLayout.setRefreshing(false);
+        mPresenter.getDiary(getActivity());
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.menu_item_one:
-                //TODO 编辑日记
+                WriteDiaryActivity.startActivity(getActivity());
                 break;
         }
     }
+
 }

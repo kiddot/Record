@@ -3,6 +3,7 @@ package com.android.record.diary.view;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.android.record.R;
 import com.android.record.base.componet.BaseActivity;
@@ -35,4 +36,5 @@ public class DiaryActivity extends BaseActivity{
         mDiaryPresenter = new DiaryPresenter(mFragment);
         mFragment.setPresenter(mDiaryPresenter);
     }
+
 }

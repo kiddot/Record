@@ -89,7 +89,11 @@ public class DiaryPresenter implements DiaryTaskContract.Presenter{
     }
 
     @Override
-    public void sendDiary() {
+    public void saveDiary(Context context) {
+        mDiaryService.saveDiary("save", mDiaryTaskView.getUserName(),
+                mDiaryTaskView.getDiaryTitle(), mDiaryTaskView.getDiaryDate(),
+                mDiaryTaskView.getWeek(), mDiaryTaskView.getContent(),
+                mDiaryTaskView.getEmotion(), System.currentTimeMillis());
 
     }
 
